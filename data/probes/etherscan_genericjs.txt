@@ -1,0 +1,3171 @@
+﻿window.isBackButton = false;
+window.isFrTxns = false;
+window.isFrHold = false;
+window.isFrReadC = false;
+window.isFrWriteC = false;
+window.isFrInventory = false;
+window.isFrDexTracker = false;
+window.isFrTokenAnayltics = false;
+window.isFrNFTTracker = false;
+window.isFrCards = false;
+
+window.token_holders_loaded = false;
+window.token_transactions_loaded = false;
+window.tokenChartLoaded = false;
+window.writeContractLoaded = false;
+window.readContractLoaded = false;
+window.token_inventory_loaded = false;
+window.dexTrackerLoaded = false;
+window.token_analytics_loaded = false;
+window.readProxyContractLoaded = false;
+window.writeProxyContractLoaded = false;
+window.readCustomContractLoaded = false;
+window.writeCustomContractLoaded = false;
+window.nftTrackerLoaded = false;
+window.cards_loaded = false;
+var tempI = 0;
+var iframeopt = {}
+
+// TAB DROPDOWN
+// =======================================================
+document.addEventListener('shown.bs.tab', function (event) {
+    var dropdown = event.target && event.target.closest ? event.target.closest('#nav_subtabs .dropdown-menu') : null;
+    if (dropdown && dropdown.previousElementSibling) dropdown.previousElementSibling.classList.add('active');
+});
+document.addEventListener('hidden.bs.tab', function (event) {
+    var dropdown = event.target && event.target.closest ? event.target.closest('#nav_subtabs .dropdown-menu') : null;
+    if (dropdown && dropdown.previousElementSibling) dropdown.previousElementSibling.classList.remove('active');
+});
+
+function openWalletDisclaimerModal(opt) {
+    iframeopt = opt
+    $('#walletDisclaimerModal').modal('show');
+}
+function openAfterWalletDisclaimerModal() {
+    if (iframeopt.source == "read") {
+        try {
+            if (document.URL.indexOf('readProxyContract') != -1) {
+                openProxyModal("readproxycontractiframe");
+                document.getElementById("readContractMessageProxy").classList.add("d-flex");
+            }
+            else if (document.URL.indexOf('readCustomContract') != -1) {
+                openModal("readcustomcontractiframe");
+                var targetIframe = document.getElementById("readcustomcontractiframe");
+                document.getElementById("readContractMessage").classList.add("d-flex");
+                targetIframe.style.minHeight = '600px';
+            }
+            else {
+                var isInIFrame = (window.location != iframeopt.location);
+                if (isInIFrame) {
+                    openModal("readcontractiframe");
+                    var targetIframe = document.getElementById("readcontractiframe");
+                    document.getElementById("readContractMessage").classList.add("d-flex");
+                    targetIframe.style.minHeight = '600px';
+                } else {
+                    $('#WalletModalProxyIframeNew').modal('show');
+                }
+            }
+        } catch (err) { }
+    } else if (iframeopt.source == "write") {
+        try {
+            if (window.document.URL.indexOf('writeProxyContract') != -1) {
+                window.document.getElementById("readContractMessageProxy").classList.remove("d-flex");
+                openProxyModal("writeproxycontractiframe");
+            } else {
+                var isInIFrame = (window.location != iframeopt.location);
+                if (isInIFrame) {
+                    openModal("writecontractiframe");
+                    var targetIframe = window.document.getElementById("writecontractiframe")
+                    targetIframe.style.minHeight = '600px';
+                    window.document.getElementById("readContractMessage").classList.remove("d-flex");
+                } else {
+                    $('#WalletModalProxyIframeNew').modal('show');
+                }
+            }
+        } catch (err) { }
+    } else if (iframeopt.source == "writecustom") {
+        try {
+            var isInIFrame = (window.location != iframeopt.location);
+            if (isInIFrame) {
+                openCustomeContractModal("writecustomcontractiframe");
+                var targetIframe = window.document.getElementById("writecustomcontractiframe")
+                targetIframe.style.minHeight = '600px';
+                window.document.getElementById("readContractMessageCustomeContract").classList.remove("d-flex");
+            }
+        } catch (err) { }
+    } else if (iframeopt.source == "readmultiple") {
+        try {
+            openProxyModal("multiplereadfacetiframe");
+        } catch (err) { }
+    } else if (iframeopt.source == "writemultiple") {
+        try {
+            openProxyModal("multiplewritefacetiframe");
+        } catch (err) { }
+    }
+}
+function openModal(type) {
+    var mtmStr = "document.getElementById('" + type + "').contentWindow.connectWeb3('web3')";
+    $("#btnMetamask").attr("onClick", mtmStr);
+
+    let walletConnectStr_reown = "walletConnect_reown('" + type + "')";
+    $("#btnWalletConnect_reown").attr("onClick", walletConnectStr_reown);
+
+    var coinbaseStr = "document.getElementById('" + type + "').contentWindow.connectWeb3('walletLink')";
+    $("#btnCoinbaseWallet").attr("onClick", coinbaseStr);
+
+    let rabbyWallet = "connectRabby('" + type + "')";
+    $("#btnRabbyWallet").attr("onClick", rabbyWallet);
+
+    let otherWallet = "switchReadWriteOtherWallet('" + type + "')";
+    $("#btnOtherWallet").attr("onClick", otherWallet);
+
+    $('#WalletModal').modal('show');
+}
+
+function closeModal() {
+    $('#WalletModal').modal('hide');
+}
+
+function openProxyModal(type) {
+    var mtmStr = "document.getElementById('" + type + "').contentWindow.connectWeb3('web3')";
+    $("#btnMetamaskProxy").attr("onClick", mtmStr)
+
+    let walletConnectStr_reown = "walletConnect_reown('" + type + "')";
+    $("#btnWalletConnect_reownProxy").attr("onClick", walletConnectStr_reown);
+
+    var coinbaseStr = "document.getElementById('" + type + "').contentWindow.connectWeb3('walletLink')";
+    $("#btnCoinbaseWalletProxy").attr("onClick", coinbaseStr);
+
+    let rabbyWallet = "connectRabby('" + type + "')";
+    $("#btnRabbyWalletProxy").attr("onClick", rabbyWallet);
+
+    let otherWallet = "switchProxyReadWriteOtherWallet('" + type + "')";
+    $("#btnOtherWalletProxy").attr("onClick", otherWallet);
+
+    $('#WalletModalProxyIframe').modal('show');
+}
+
+function closeProxyModal() {
+    $('#WalletModalProxyIframe').modal('hide');
+}
+
+
+//------------ read write connect wallet ------------------------------------
+
+function switchReadWriteOtherWallet(type) {
+    document.getElementById("readWriteWalletList").classList.add("d-none");
+    document.getElementById("otherReadWriteWalletList").classList.remove("d-none");
+    document.getElementById("readWriteBackButton").classList.remove("d-none");
+    document.getElementById("readWriteBackButtonInfo").classList.remove("d-none");
+    document.getElementById("exampleModalLabel").innerText = "Other Wallets";
+
+    const searchInput = document.getElementById("otherReadWriteWalletSearch");
+    searchInput.value = "";
+
+    renderOtherReadWriteWalletList(type);
+    filterOtherReadWriteWalletList();
+    searchInput.focus();
+}
+
+function showReadWriteWalletList() {
+    document.getElementById("readWriteWalletList").classList.remove("d-none");
+    document.getElementById("otherReadWriteWalletList").classList.add("d-none");
+    document.getElementById("readWriteBackButton").classList.add("d-none");
+    document.getElementById("readWriteBackButtonInfo").classList.add("d-none");
+    document.getElementById("exampleModalLabel").innerText = "Connect a Wallet";
+
+    document.getElementById("otherReadWriteWalletSearch").value = "";
+    document.getElementById("otherReadWriteWalletNoSearchResult").classList.add("d-none");
+}
+
+function renderOtherReadWriteWalletList(type) {
+    const container = document.getElementById("otherReadWriteWalletContainer");
+    const noSearchResult = document.getElementById("otherReadWriteWalletNoSearchResult");
+
+    container.innerHTML = "";
+    noSearchResult.classList.add("d-none");
+
+    //list wallet to filter out
+    const excludedWallets = ["Rabby Wallet", "Coinbase Wallet", "MetaMask"];
+
+    const uniqueProviders = [...new Map(providers.map(p => [p.info.name, p])).values()].filter(wallet => !excludedWallets.includes(wallet.info.name));
+
+    if (uniqueProviders.length === 0) {
+        container.innerHTML = '<div class="text-muted text-center py-3">No available wallet</div>';
+        return;
+    }
+
+    uniqueProviders.forEach(wallet => {
+        container.innerHTML += `
+                <button type="button"  data-wallet-name="${filterXSS(wallet.info.name.toLowerCase())}" onclick="connectOther('${filterXSS(type)}','${filterXSS(wallet.info.name)}')" class="btn btn-lg btn-wallet d-flex justify-content-between align-items-center w-100 p-3 mb-2">
+                    <span class="text-dark">${filterXSS(wallet.info.name)}</span>
+                    <img width="25" src="${filterXSS(wallet.info.icon)}" alt="${filterXSS(wallet.info.name)}">
+                </button>
+            `;
+    });
+}
+
+function filterOtherReadWriteWalletList() {
+    const searchInput = document.getElementById("otherReadWriteWalletSearch");
+    const container = document.getElementById("otherReadWriteWalletContainer");
+    const noSearchResult = document.getElementById("otherReadWriteWalletNoSearchResult");
+
+    const keyword = searchInput.value.trim().toLowerCase();
+    const buttons = container.querySelectorAll("button");
+
+    let visibleCount = 0;
+
+    buttons.forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        const walletName = (btn.getAttribute("data-wallet-name") || "").toLowerCase();
+
+        const isMatch = text.includes(keyword) || walletName.includes(keyword);
+
+        if (isMatch) {
+            btn.classList.remove("d-none");
+            btn.classList.add("d-flex");
+            visibleCount++;
+        } else {
+            btn.classList.remove("d-flex");
+            btn.classList.add("d-none");
+        }
+    });
+
+    const hasButtons = buttons.length > 0;
+    noSearchResult.classList.toggle("d-none", !(hasButtons && visibleCount === 0));
+}
+
+document.getElementById("otherReadWriteWalletSearch").addEventListener("input", filterOtherReadWriteWalletList);
+
+const walletModal = document.getElementById('WalletModal');
+
+walletModal.addEventListener('hidden.bs.modal', function () {
+    showReadWriteWalletList();
+});
+
+
+//----------------------------------------------
+
+//------------ proxy read write connect wallet ------------------------------------
+
+function switchProxyReadWriteOtherWallet(type) {
+    document.getElementById("proxyReadWriteWalletList").classList.add("d-none");
+    document.getElementById("otherProxyReadWriteWalletList").classList.remove("d-none");
+    document.getElementById("proxyReadWriteBackButton").classList.remove("d-none");
+    document.getElementById("proxyReadWriteBackButtonInfo").classList.remove("d-none");
+    document.getElementById("ProxyModalLabel").innerText = "Other Wallets";
+
+    const searchInput = document.getElementById("otherProxyReadWriteWalletSearch");
+    searchInput.value = "";
+
+    renderOtherProxyReadWriteWalletList(type);
+    filterProxyOtherReadWriteWalletList();
+    searchInput.focus();
+}
+
+function showProxyReadWriteWalletList() {
+    document.getElementById("proxyReadWriteWalletList").classList.remove("d-none");
+    document.getElementById("otherProxyReadWriteWalletList").classList.add("d-none");
+    document.getElementById("proxyReadWriteBackButton").classList.add("d-none");
+    document.getElementById("proxyReadWriteBackButtonInfo").classList.add("d-none");
+    document.getElementById("ProxyModalLabel").innerText = "Connect a Wallet";
+
+    document.getElementById("otherProxyReadWriteWalletSearch").value = "";
+    document.getElementById("otherProxyReadWriteWalletNoSearchResult").classList.add("d-none");
+}
+
+function renderOtherProxyReadWriteWalletList(type) {
+    const container = document.getElementById("otherProxyReadWriteWalletContainer");
+    const noSearchResult = document.getElementById("otherProxyReadWriteWalletNoSearchResult");
+    container.innerHTML = "";
+
+    //list wallet to filter out
+    const excludedWallets = ["Rabby Wallet", "Coinbase Wallet", "MetaMask"];
+
+    const uniqueProviders = [...new Map(providers.map(p => [p.info.name, p])).values()].filter(wallet => !excludedWallets.includes(wallet.info.name));
+
+    if (uniqueProviders.length === 0) {
+        container.innerHTML = '<div class="text-muted text-center py-3">No available wallet</div>';
+        return;
+    }
+
+    uniqueProviders.forEach(wallet => {
+        container.innerHTML += `
+                            <button type="button" data-wallet-name="${filterXSS(wallet.info.name.toLowerCase())}" onclick="connectOther('${filterXSS(type)}','${filterXSS(wallet.info.name)}')" class="btn btn-lg btn-wallet d-flex justify-content-between align-items-center w-100 p-3 mb-2">
+                                <span class="text-dark">${filterXSS(wallet.info.name)}</span>
+                                <img width="25" src="${filterXSS(wallet.info.icon)}" alt="${filterXSS(wallet.info.name)}">
+                            </button>
+                        `;
+    });
+}
+
+function filterProxyOtherReadWriteWalletList() {
+    const searchInput = document.getElementById("otherProxyReadWriteWalletSearch");
+    const container = document.getElementById("otherProxyReadWriteWalletContainer");
+    const noSearchResult = document.getElementById("otherProxyReadWriteWalletNoSearchResult");
+
+    const keyword = searchInput.value.trim().toLowerCase();
+    const buttons = container.querySelectorAll("button");
+
+    let visibleCount = 0;
+
+    buttons.forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        const walletName = (btn.getAttribute("data-wallet-name") || "").toLowerCase();
+
+        const isMatch = text.includes(keyword) || walletName.includes(keyword);
+
+        if (isMatch) {
+            btn.classList.remove("d-none");
+            btn.classList.add("d-flex");
+            visibleCount++;
+        } else {
+            btn.classList.remove("d-flex");
+            btn.classList.add("d-none");
+        }
+    });
+
+    const hasButtons = buttons.length > 0;
+    noSearchResult.classList.toggle("d-none", !(hasButtons && visibleCount === 0));
+}
+
+document.getElementById("otherProxyReadWriteWalletSearch").addEventListener("input", filterProxyOtherReadWriteWalletList);
+
+const proxyWalletModal = document.getElementById('WalletModalProxyIframe');
+
+proxyWalletModal.addEventListener('hidden.bs.modal', function () {
+    showProxyReadWriteWalletList();
+});
+//----------------------------------------------
+
+
+//------------ custom read write connect wallet ------------------------------------
+// [enh#5438] Custom ABI wallet-modal helpers (down to the "----" separator below).
+// Copied verbatim from the address page's addresspage4.js equivalents; keep in sync.
+// De-dup into a shared JS file is tracked as a separate ticket.
+function openCustomeContractModal(type) {
+    let mtmStr = "document.getElementById('" + type + "').contentWindow.connectWeb3('web3')";
+    $("#btnMetamaskCustomeContract").attr("onClick", mtmStr)
+
+    var walletConnectStr_reown = "walletConnect_reown('" + type + "')";
+    $("#btnWalletConnect_reownCustomeContract").attr("onClick", walletConnectStr_reown);
+
+    let coinbaseStr = "document.getElementById('" + type + "').contentWindow.connectWeb3('walletLink')";
+    $("#btnCoinbaseWalletCustomeContract").attr("onClick", coinbaseStr);
+
+    let rabbyWallet = "connectRabby('" + type + "')";
+    $("#btnRabbyWalletProxyCustomeContract").attr("onClick", rabbyWallet);
+
+    let otherWallet = "switchCustomReadWriteOtherWallet('" + type + "')";
+    $("#btnOtherWalletProxyCustomeContract").attr("onClick", otherWallet);
+
+    $('#WalletModalCustomeContractIframe').modal('show');
+}
+
+function closeCustomeContractModal() {
+    $('#WalletModalCustomeContractIframe').modal('hide');
+}
+
+function switchCustomReadWriteOtherWallet(type) {
+    document.getElementById("customReadWriteWalletList").classList.add("d-none");
+    document.getElementById("otherCustomReadWriteWalletList").classList.remove("d-none");
+    document.getElementById("customReadWriteBackButton").classList.remove("d-none");
+    document.getElementById("customReadWriteBackButtonInfo").classList.remove("d-none");
+    document.getElementById("CustomeContractModalLabel").innerText = "Other Wallets";
+
+    const searchInput = document.getElementById("otherCustomReadWriteWalletSearch");
+    searchInput.value = "";
+
+    renderOtherCustomReadWriteWalletList(type);
+    filterCustomOtherReadWriteWalletList();
+    searchInput.focus();
+}
+
+function showCustomReadWriteWalletList() {
+    document.getElementById("customReadWriteWalletList").classList.remove("d-none");
+    document.getElementById("otherCustomReadWriteWalletList").classList.add("d-none");
+    document.getElementById("customReadWriteBackButton").classList.add("d-none");
+    document.getElementById("customReadWriteBackButtonInfo").classList.add("d-none");
+    document.getElementById("CustomeContractModalLabel").innerText = "Connect a Wallet";
+
+    document.getElementById("otherCustomReadWriteWalletSearch").value = "";
+    document.getElementById("otherCustomReadWriteWalletNoSearchResult").classList.add("d-none");
+}
+
+function renderOtherCustomReadWriteWalletList(type) {
+    const container = document.getElementById("otherCustomReadWriteWalletContainer");
+    const noSearchResult = document.getElementById("otherCustomReadWriteWalletNoSearchResult");
+    container.innerHTML = "";
+
+    //list wallet to filter out
+    const excludedWallets = ["Rabby Wallet", "Coinbase Wallet", "MetaMask"];
+
+    const uniqueProviders = [...new Map(providers.map(p => [p.info.name, p])).values()].filter(wallet => !excludedWallets.includes(wallet.info.name));
+
+    if (uniqueProviders.length === 0) {
+        container.innerHTML = '<div class="text-muted text-center py-3">No available wallet</div>';
+        return;
+    }
+
+    uniqueProviders.forEach(wallet => {
+        const walletName = wallet.info.name;
+        const icon = wallet.info.icon;
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "btn btn-lg btn-wallet d-flex justify-content-between align-items-center w-100 p-3 mb-2";
+        button.dataset.walletName = String(walletName).toLowerCase();
+        button.addEventListener("click", function () {
+            connectOther(type, walletName);
+        });
+
+        const span = document.createElement("span");
+        span.className = "text-dark";
+        span.textContent = walletName;
+
+        const img = document.createElement("img");
+        img.width = 25;
+        img.alt = walletName;
+        // EIP-6963 icons must be data URIs; only honor data:image/ so a hostile icon can't point the
+        // src at an attacker-controlled URL (property assignment already blocks attribute injection).
+        if (typeof icon === "string" && /^data:image\//i.test(icon)) {
+            img.src = icon;
+        }
+
+        button.appendChild(span);
+        button.appendChild(img);
+        container.appendChild(button);
+    });
+}
+
+function filterCustomOtherReadWriteWalletList() {
+    const searchInput = document.getElementById("otherCustomReadWriteWalletSearch");
+    const container = document.getElementById("otherCustomReadWriteWalletContainer");
+    const noSearchResult = document.getElementById("otherCustomReadWriteWalletNoSearchResult");
+
+    const keyword = searchInput.value.trim().toLowerCase();
+    const buttons = container.querySelectorAll("button");
+
+    let visibleCount = 0;
+
+    buttons.forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        const walletName = (btn.getAttribute("data-wallet-name") || "").toLowerCase();
+
+        const isMatch = text.includes(keyword) || walletName.includes(keyword);
+
+        if (isMatch) {
+            btn.classList.remove("d-none");
+            btn.classList.add("d-flex");
+            visibleCount++;
+        } else {
+            btn.classList.remove("d-flex");
+            btn.classList.add("d-none");
+        }
+    });
+
+    const hasButtons = buttons.length > 0;
+    noSearchResult.classList.toggle("d-none", !(hasButtons && visibleCount === 0));
+}
+
+var otherCustomReadWriteWalletSearchInput = document.getElementById("otherCustomReadWriteWalletSearch");
+if (otherCustomReadWriteWalletSearchInput) {
+    otherCustomReadWriteWalletSearchInput.addEventListener("input", filterCustomOtherReadWriteWalletList);
+}
+
+var customWalletModal = document.getElementById('WalletModalCustomeContractIframe');
+if (customWalletModal) {
+    customWalletModal.addEventListener('hidden.bs.modal', function () {
+        showCustomReadWriteWalletList();
+    });
+}
+//----------------------------------------------
+
+
+function walletConnect_reown(id) {
+    var elem = document.getElementById(id);
+    elem.contentWindow.connectWeb3('walletConnect_reown');
+    elem.style.height = '750px';
+}
+
+function connectRabby(id) {
+    var elem = document.getElementById(id);
+    elem.contentWindow.connectWeb3('rabby');
+    if (elem.offsetHeight < 750)
+        elem.style.height = '750px';
+}
+
+function connectOther(id, name) {
+    var elem = document.getElementById(id);
+    elem.contentWindow.connectWeb3(name, providers);
+    if (elem.offsetHeight < 750)
+        elem.style.height = '750px';
+}
+
+if (!!window.performance && window.performance.navigation.type === 2) {
+    window.isFrTxns = true;
+    window.isFrHold = true;
+    window.isFrChart = true;
+    window.isFrReadC = true;
+    window.isFrWriteC = true;
+    window.isFrInventory = false;
+    window.isBackButton = true;
+    window.isFrDexTracker = true;
+    window.isFrTokenAnayltics = true;
+    window.isFrNFTTracker = true;
+    window.isFrCards = true;
+};
+
+$(document).ready(function () {
+    // Initialize tooltips
+    $("[data-bs-toggle-second='tooltip']").tooltip({ trigger: 'hover' });
+    $("[rel='tooltip']").tooltip();
+
+    // initialization of clipboard
+    //$.HSCore.components.HSClipboard.init('.js-clipboard');
+
+    $("#hdnTokenTxns2").val(strGlobal);
+
+    if (hash != '') {
+        if (hash.indexOf('images-') !== -1) {
+            hash = 'inventory';
+            updatehash(hash);
+            activaTab(hash, "");
+        } else {
+            let fNumber = null;
+            if (hash.lastIndexOf("#") > -1) {
+                fNumber = hash.substring(hash.lastIndexOf("#"), hash.length);
+                fNumber = fNumber.replace("#F", "");
+                hash = hash.substring(0, hash.indexOf("#"));
+            }
+            activaTab(hash, fNumber);
+        }
+    } else {
+        if (showTokenHoldersTabAsDefault === 'True') {
+            activaTab('balances');
+        } else {
+            activaTab('transactions');
+        }
+    }
+
+    // Update reset link
+    resetLinkSearch();
+
+    $("#searchFilterInvoker").click(function () {
+        let currentUrl = document.location.href;
+        if (currentUrl && currentUrl.lastIndexOf("#") > -1) {
+            let hash = currentUrl.substr(currentUrl.lastIndexOf("#"), currentUrl.length);
+            if (hash) {
+                let currentFormAction = $("#popup_search_token form").attr("action");
+                if (currentFormAction != "") {
+                    // Check if action form contain #tab
+                    if (currentFormAction.indexOf("#") > -1) {
+                        currentFormAction = currentFormAction.substr(0, currentFormAction.lastIndexOf("#"));
+                    }
+                    let fullActionUrl = currentFormAction + hash;
+                    $("#popup_search_token form").attr("action", fullActionUrl);
+                }
+            }
+        } else {
+            $("#popup_search_token form").attr("action", document.location.pathname);
+        }
+    });
+
+    $('#darkModaBtn').on('click', function () {
+        if ($('body').hasClass('dark-mode')) {
+            $('#cmc_logo').attr('src', '/images/cmc_dark.svg?v=0.01');
+            $('#uniswap_logo').attr('src', '/images/uni_dark.svg?v=0.01');
+            $('#coingecko_logo').attr('src', '/images/coingecko-darkmode.svg?v=0.01');
+        } else {
+            $('#cmc_logo').attr('src', '/images/cmc.svg?v=0.01');
+            $('#uniswap_logo').attr('src', '/images/uni.svg?v=0.02');
+            $('#coingecko_logo').attr('src', '/images/coingecko.svg?v=0.01');
+        }
+    });
+
+    if ($("#txtSearchContract").length) {
+        initialiseKeyupOnDocReady();
+    }
+
+    if (window.matchMedia("(max-width: 767px)").matches) {
+        // Mobile
+        adjustPosition = 90;
+    } else {
+        // Others
+        adjustPosition = 50;
+    }
+
+    //For Single contract source code
+    $("#panel-sourcecode").click(function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+
+        if ($this.children('i').hasClass('fa-expand')) {
+            $this.children('i').removeClass('fa-expand');
+            $this.children('i').addClass('fa-compress');
+            //$("#editor").height("100%");
+
+            var editor = ace.edit("editor");
+            editor.setOptions({ maxLines: Infinity });
+
+            setTimeout(function () {
+                js_addresspage4_ace_extension_panel_sourcecode.onObserve();
+            }, 200)
+        }
+        else if ($this.children('i').hasClass('fa-compress')) {
+            $this.children('i').removeClass('fa-compress');
+            $this.children('i').addClass('fa-expand');
+            //$("#editor").height("350px");
+
+            var editor = ace.edit("editor");
+            editor.setOptions({ maxLines: MaxLines });
+
+            js_addresspage4_ace_extension_panel_sourcecode.offObserve();
+        }
+        $(this).closest('.panel-sourcecode').toggleClass('panel-fullscreen');
+    });
+
+    //For multi file contract source code    
+    $(".togglefullscreen").click(function (e) {
+        e.preventDefault();
+        var id = this.id.split('_');
+        var editorId = "editor" + id[1];
+        currentEditor = editorId;
+
+        var $this = $(this);
+        if ($this.children('i').hasClass('fa-expand')) {
+            $this.children('i').removeClass('fa-expand');
+            $this.children('i').addClass('fa-compress');
+            //$("#" + editorId).height("100%");
+
+            var editor = ace.edit(editorId);
+            editor.setOptions({ maxLines: Infinity });
+            setTimeout(function () {
+                js_addresspage4_ace_extension_panel_sourcecode.onObserve();
+            }, 200)
+        }
+        else if ($this.children('i').hasClass('fa-compress')) {
+            $this.children('i').removeClass('fa-compress');
+            $this.children('i').addClass('fa-expand');
+            //$("#" + editorId).height("350px");
+
+            var editor = ace.edit(editorId);
+            editor.setOptions({ maxLines: MaxLines });
+            js_addresspage4_ace_extension_panel_sourcecode.offObserve();
+        }
+        $(this).closest('.panel-sourcecode').toggleClass('panel-fullscreen');
+    });
+
+    $("#panel-ABI").click(function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+
+        if ($this.children('i').hasClass('fa-expand')) {
+            $this.children('i').removeClass('fa-expand');
+            $this.children('i').addClass('fa-compress');
+            $("#js-copytextarea2").css('height', 'auto');
+            $("#js-copytextarea2").css('max-height', '400px');
+        }
+        else if ($this.children('i').hasClass('fa-compress')) {
+            $this.children('i').removeClass('fa-compress');
+            $this.children('i').addClass('fa-expand');
+            $("#js-copytextarea2").css('height', '200px');
+            $("#js-copytextarea2").css('max-height', '400px');
+        }
+        $(this).closest('.panel-ABI').toggleClass('panel-fullscreen');
+    });
+
+    $("#panel-custom-ABI").click(function (e) {
+        e.preventDefault();
+
+        var $this = $(this);
+
+        if ($this.children('i').hasClass('fa-expand')) {
+            $this.children('i').removeClass('fa-expand');
+            $this.children('i').addClass('fa-compress');
+            $("#js-copycustomtextarea2").css('height', 'auto');
+            $("#js-copycustomtextarea2").css('max-height', '400px');
+        }
+        else if ($this.children('i').hasClass('fa-compress')) {
+            $this.children('i').removeClass('fa-compress');
+            $this.children('i').addClass('fa-expand');
+            $("#js-copycustomtextarea2").css('height', '200px');
+            $("#js-copycustomtextarea2").css('max-height', '400px');
+        }
+        $(this).closest('.panel-custom-ABI').toggleClass('panel-fullscreen');
+    });
+
+    $("#ContentPlaceHolder1_btnconvert222").click(function () {
+        convertstr(litContractAddress);
+    });
+
+    $("#ContentPlaceHolder1_btnFindSimiliarContracts").click(function () {
+        location.href = '/find-similar-contracts?a=' + litContractAddress + '&lvl=5';
+    });
+    //END Code tab
+});
+
+function resetLinkSearch() {
+    if ($(".reset-search-link").length > 0) {
+        let currentUrl = document.location.href;
+        if (currentUrl != "" && currentUrl.indexOf("#") > -1) {
+            let hash = currentUrl.substr(currentUrl.lastIndexOf("#"), currentUrl.length);
+            let resetUrl = $(".reset-search-link").attr("href");
+
+            if (hash && resetUrl) {
+                // Check if action form contain #tab
+                if (resetUrl.indexOf("#") > -1) {
+                    resetUrl = resetUrl.substr(0, resetUrl.lastIndexOf("#"));
+                }
+                let fullActionUrl = resetUrl + hash;
+                $(".reset-search-link").attr("href", fullActionUrl);
+            }
+        } else {
+            $(".reset-search-link").attr("href", document.location.pathname);
+        }
+    }
+}
+
+function activaTab(tab, fNumber) {
+    var subtab = '0';
+
+
+    if ((tab.indexOf('readCustomContract') >= 0 || tab.indexOf('writeCustomContract') >= 0)
+        && !document.querySelector('.nav-subtabs [data-bs-target="#' + tab + '"]')) {
+        tab = 'code';
+    }
+
+    if (tab.indexOf('comment') >= 0) {
+        tab = 'comments';
+        loaddisqus();
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('code') >= 0) {
+        subtab = '1';
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('balances') >= 0) {
+        loadIframeSource2();
+    } else if (tab.indexOf('inventory') >= 0) {
+        loadIframeSource6();
+    } else if (tab.indexOf('tokenTrade') >= 0 && enableTokenTrades) {
+        loadIframeSource7();
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('tokenNFTTrade') >= 0 && enableNFTTokenTrades) {
+        loadIframeSource9();
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if ((tab.indexOf('tokenAnalytics') >= 0 || tab.indexOf('analytics') >= 0) && enableTokenAnalytic) {
+        bootstrap.Tab.getInstance(document.querySelector('.nav_tabs1 li a[data-bs-target="#tokenAnalytics"]')).show();
+        loadIframeSource8(tab);
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('readContract') >= 0) {
+        subtab = '1';
+        loadIframeSource(fNumber);
+    } else if (tab.indexOf('writeContract') >= 0) {
+        subtab = '1';
+        loadIframeSource5(fNumber);
+    } else if (tab.indexOf('readProxyContract') >= 0) {
+        subtab = '1';
+        loadIframeSourceProxyRead(fNumber);
+    } else if (tab.indexOf('writeProxyContract') >= 0) {
+        subtab = '1';
+        loadIframeSourceProxyWrite(fNumber);
+    } else if (tab.indexOf('readCustomContract') >= 0) {
+        subtab = '1';
+        loadIframeSourceCustomRead(fNumber);
+    } else if (tab.indexOf('writeCustomContract') >= 0) {
+        subtab = '1';
+        loadIframeSourceCustomWrite(fNumber);
+    } else if (tab.indexOf('tokenInfo') >= 0) {
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('cards') >= 0) {
+        loadCardsIframe();
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('historicalProxy') >= 0) {
+        subtab = '1';
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('implementation') >= 0) {
+        subtab = '1';
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else if (tab.indexOf('multiplierHistory') >= 0) {
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    } else {
+        hash = 'transactions';
+        updatehash(hash);
+        loadIframeSource3();
+        window.parent.document.getElementById('overlayMain').style.display = 'none';
+    };
+
+    handleCsvExport(tab);
+
+    var obj1 = document.getElementById('ContentPlaceHolder1_li_readContract');
+    var obj2 = document.getElementById('ContentPlaceHolder1_li_writeContract');
+    var obj3 = document.getElementById('ContentPlaceHolder1_li_readProxyContract');
+    var obj4 = document.getElementById('ContentPlaceHolder1_li_writeProxyContract');
+    var obj5 = document.getElementById('ContentPlaceHolder1_li_historicalProxy');
+    var obj6 = document.getElementById('ContentPlaceHolder1_li_implementation');
+    var obj7 = document.getElementById('ContentPlaceHolder1_li_readCustomContract');
+    var obj8 = document.getElementById('ContentPlaceHolder1_li_writeCustomContract');
+    // Client-injected Custom nav (custom ABI applied without saving). Kept in the visibility
+    // checks below so the sub-tab bar is not torn down when only a local ABI is present.
+    var localCustomAbiNavItem = document.getElementById('localCustomAbiNavItem');
+
+    if (subtab === '0') {
+        //$('.nav_tabs1 a[href="#' + tab + '"]').tab('show');
+        if (tab.indexOf('tokenAnalytics') >= 0 || tab.indexOf('analytics') >= 0) {
+            //Do nothing.
+        }
+        else {
+            bootstrap.Tab.getInstance(document.querySelector('.nav_tabs1 a[data-bs-target="#' + tab + '"]')).show();
+        }
+
+        if (obj1 === null && obj2 === null && obj3 === null && obj4 === null && obj5 === null && obj6 === null && obj7 === null && obj8 === null && localCustomAbiNavItem === null) {
+            if (document.getElementById('nav_subtabs')) {
+                document.getElementById('nav_subtabs').style.display = "none";
+            }
+            if ($("#code")) {
+                $("#code").attr("style", "display:visible;");
+            }
+        } else {
+            document.getElementById('nav_subtabs').style.display = "visible";
+            $("#code").attr("style", "display:visible;");
+            $("#readContract").attr("style", "display:none;");
+            $("#writeContract").attr("style", "display:none;");
+            $("#readProxyContract").attr("style", "display:none;");
+            $("#writeProxyContract").attr("style", "display:none;");
+            $("#historicalProxy").attr("style", "display:none;");
+            $("#implementation").attr("style", "display:none;");
+            $("#readCustomContract").attr("style", "display:none;");
+            $("#writeCustomContract").attr("style", "display:none;");
+        }
+    } else if (subtab == '1') {
+
+        if (tab.lastIndexOf("#") > -1) {
+            tab = tab.substring(0, tab.lastIndexOf("#"));
+        }
+
+        //$('.nav_tabs1 a[href="#contracts"]').tab('show');
+        bootstrap.Tab.getInstance(document.querySelector('.nav_tabs1 a[data-bs-target="#contracts"]')).show();
+
+        if (obj1 === null && obj2 === null && obj3 === null && obj4 === null && obj5 === null && obj6 === null && obj7 === null && obj8 === null && localCustomAbiNavItem === null) {
+            if (document.getElementById('nav_subtabs')) {
+                document.getElementById('nav_subtabs').style.display = "none";
+                $("#nav_subtabs").parent().removeClass("d-md-flex");
+                $("#nav_subtabs").parent().hide();
+            }
+        } else {
+            document.getElementById('nav_subtabs').style.display = "visible";
+            var contractSubtab = document.querySelector('.nav-subtabs li a[data-bs-target="#' + tab + '"]');
+            if (contractSubtab) bootstrap.Tab.getOrCreateInstance(contractSubtab).show();
+
+            tempI++;
+
+            if (tab === 'code' && tempI === 2) {
+                setTimeout(function () {
+                    var searchText = window.localStorage.getItem("searchCode");
+
+                    if (searchText) {
+                        myTocSelect('event ' + searchText + '(');
+
+                        window.localStorage.removeItem("searchCode");
+                    }
+                }, 1000);
+            }
+        }
+
+        if (tab == 'code') {
+            $('#readContract').attr('style', 'display:none;');
+            $('#code').attr('style', 'display:visible;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+        } else if (tab == 'readContract') {
+            $('#code').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:visible;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+        } else if (tab == 'writeContract') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:visible;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+        } else if (tab == 'readProxyContract') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:visible;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+        } else if (tab == 'writeProxyContract') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:visible;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+        } else if (tab == 'historicalProxy') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:visible;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+            if (typeof applyNativeBrowserSearch === 'function') {
+                applyNativeBrowserSearch("[data-truncate='address']");
+            }
+        } else if (tab == 'implementation') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:visible;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+        } else if (tab == 'readCustomContract') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:visible;');
+        } else if (tab == 'writeCustomContract') {
+            $('#code').attr('style', 'display:none;');
+            $('#writeContract').attr('style', 'display:none;');
+            $('#readContract').attr('style', 'display:none;');
+            $('#readProxyContract').attr('style', 'display:none;');
+            $('#writeProxyContract').attr('style', 'display:none;');
+            $('#historicalProxy').attr('style', 'display:none;');
+            $('#implementation').attr('style', 'display:none;');
+            $('#readCustomContract').attr('style', 'display:none;');
+            $('#writeCustomContract').attr('style', 'display:visible;');
+        }
+    }
+}
+
+function removeHeight() {
+    var element = document.getElementById('writecontractiframe');
+    element.style.removeProperty("min-height");
+}
+
+function updatehash(strhash) {
+
+    handleCsvExport(strhash);
+
+    if (strhash == '') {
+        var baseUrl = window.location.href.split('#')[0];
+        //history.replaceState("", document.title, window.location.pathname);
+        history.pushState("", document.title, baseUrl);
+    } else {
+        var baseUrl = window.location.href.split('#')[0];
+        history.pushState("", document.title, baseUrl + '#' + strhash);
+    };
+
+    var themeMode = localStorage.getItem('theme');
+    if (themeMode === null) {
+        themeMode = 'light'
+    }
+
+    if (getCookie('displaymode') === 'light' || themeMode === 'light') {
+        document.documentElement.setAttribute('data-bs-theme', 'light');
+    } else if (getCookie('displaymode') === 'dim' || themeMode === 'dim') {
+        document.documentElement.setAttribute('data-bs-theme', 'dim');
+    } else if (getCookie('displaymode') === 'dark' || themeMode === 'dark') {
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
+    } else if (getCookie('displaymode') === 'auto' || themeMode === 'auto') {
+        document.documentElement.setAttribute('data-bs-theme', getCookie('etherscan_theme'));
+    }
+
+    // Update reset link
+    resetLinkSearch();
+
+    return true;
+}
+
+function handleCsvExport(strhash) {
+    if (strhash == '') {
+        if (document.getElementById('divCSVTxns').classList.contains('d-none')) {
+            document.getElementById('divCSVTxns').classList.remove('d-none');
+        }
+        if (!document.getElementById('divCSVHolders').classList.contains('d-none')) {
+            document.getElementById('divCSVHolders').classList.add('d-none');
+        }
+    } else if (strhash == 'balances') {
+        if (!document.getElementById('divCSVTxns').classList.contains('d-none')) {
+            document.getElementById('divCSVTxns').classList.add('d-none');
+        }
+        if (document.getElementById('divCSVHolders').classList.contains('d-none')) {
+            document.getElementById('divCSVHolders').classList.remove('d-none');
+        }
+    } else {
+        if (!document.getElementById('divCSVTxns').classList.contains('d-none')) {
+            document.getElementById('divCSVTxns').classList.add('d-none');
+        }
+        if (!document.getElementById('divCSVHolders').classList.contains('d-none')) {
+            document.getElementById('divCSVHolders').classList.add('d-none');
+        }
+    }
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) === 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+var disqusloaded = false;
+function loaddisqus() {
+    if (disqusloaded == false) {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        disqusloaded = true;
+    }
+    updatehash('comments');
+}
+function showLoader(obj) {
+    if (obj == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+    }
+}
+
+function loadIframeSource(fNumber) {
+    if (window.readContractLoaded == false) {
+        window.readContractLoaded = true;
+
+        var isBluePrintContract = document.getElementById('hdnIsBluePrintContract').value
+        if (isBluePrintContract == "1") {
+            //turn off the loader
+            document.getElementById('loadingReadContractframe').style.display = "none";
+            document.getElementById('overlayMain').style.display = 'none';
+        } else {
+            document.getElementById('overlayMain').style.display = 'block';
+            let src = '/readContract?m=' + window.mode + '&a=' + litreadContractAddress + '&n=' + strNetwork + '&v=' + litContractABIAddressCode;
+            if (fNumber) {
+                src = '/readContract?m=' + window.mode + '&a=' + litreadContractAddress + '&n=' + strNetwork + '&v=' + litContractABIAddressCode + '&F=' + fNumber;
+            }
+            document.getElementById('readcontractiframe').src = src;
+        }
+    } else {
+        if (window.isBackButton == true && window.isFrReadC == true) {
+            readcontractiframe.contentWindow.location.reload(true);
+            window.isFrReadC = false;
+        };
+    };
+}
+function loadIframeSource2() {
+    if (window.token_holders_loaded == false) {
+        let flowHash = window.location.hash;
+        if (flowHash.indexOf('#flow') >= 0) {
+            flowHash = '#flow';
+        }
+        document.getElementById('overlayMain').style.display = 'block';
+        document.getElementById('tokeholdersiframe').src = '/token/generic-tokenholders2?m=' + window.mode + '&a=' + litTokenholdersContractUrlPara + '&sid=' + sid + '&p=1' + flowHash;
+    } else {
+        if (window.isBackButton == true && window.isFrHold == true) {
+            tokeholdersiframe.contentWindow.location.reload(true);
+            window.isFrHold = false;
+        };
+    };
+}
+function loadIframeSource3() {
+    if (window.token_transactions_loaded == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+        document.getElementById('tokentxnsiframe').src = '/token/generic-tokentxns2?m=' + window.mode + '&contractAddress=' + litContractAddress + '&a=' + litAddress + '&sid=' + sid + '&p=1';
+    } else {
+        if (window.isBackButton == true && window.isFrTxns == true) {
+            tokentxnsiframe.contentWindow.location.reload(true);
+            window.isFrTxns = false;
+        };
+    };
+}
+function loadIframeSource5(fLine) {
+    if (window.writeContractLoaded == false) {
+        var isBluePrintContract = document.getElementById('hdnIsBluePrintContract').value
+        if (isBluePrintContract == "1") {
+            //turn off the loader
+            document.getElementById('loadingWriteContractframe').style.display = "none";
+            document.getElementById('overlayMain').style.display = 'none';
+        } else {
+            document.getElementById('overlayMain').style.display = 'block';
+            var src = '/writecontract/index?m=' + window.mode + '&v=21.10.1.1&a=' + litwriteContractAddress + '&n=' + clsvarschain;
+            if (fLine) {
+                src = '/writecontract/index?m=' + window.mode + '&v=21.10.1.1&a=' + litwriteContractAddress + '&n=' + clsvarschain + '&F=' + fLine;
+            }
+
+            document.getElementById('writecontractiframe').src = src;
+        }
+    } else {
+        if (window.isBackButton == true && window.isFrWriteC == true) {
+            writecontractiframe.contentWindow.location.reload(true);
+            window.isFrWriteC = false;
+        };
+    };
+}
+function loadIframeSource6() {
+    if (window.token_inventory_loaded == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+
+        document.getElementById('tokenerc721_inventory_pageiframe').src = '/token/generic-tokenholder-inventory?m=' + window.mode + '&contractAddress=' + litTokenContractAddress6 + '&a=' + litAddress6 + '&pUrl=token';
+    } else {
+        if (window.isBackButton == true && window.isFrInventory == true) {
+            tokenerc721_inventory_pageiframe.contentWindow.location.reload(true);
+            window.isFrInventory = false;
+        };
+    };
+}
+function loadIframeSource7() {
+    if (window.dexTrackerLoaded == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+        var src = '/dextracker_frame?m=' + window.mode + '&q=' + litDextrackerContractAddress + '&s=' + litDextrackerSymbol + '&a=' + litAddressdex;
+        document.getElementById('dextrackeriframe').src = src;
+    } else {
+        if (window.isBackButton == true && window.isFrDexTracker == true) {
+            dextrackeriframe.contentWindow.location.reload(true);
+            window.isFrWriteC = false;
+        };
+    };
+}
+function loadIframeSource8(tab) {
+    if (window.token_analytics_loaded == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+
+        var source = '/token/token-analytics?m=' + window.mode + '&contractAddress=' + litTokenAnalyticsContractAddress + '&a=' + litTokenAnalyticsAddress + '&lg=' + litLanguage ;
+
+        if (tab == 'tokenAnalytics' || tab == 'analytics') {
+            if (litTokenAnalyticsAddress == '') {
+                source = source + "#overview";
+            } else {
+                source = source + "#token-holder-charts";
+            }
+        }
+        else if (tab == 'analytics-total-supply')
+            source = source + "#total-supply";
+        else
+            source = source + "#overview";
+
+        document.getElementById('token_analytics_pageiframe').src = source;
+    } else {
+        if (window.isBackButton == true && window.isFrTokenAnayltics == true) {
+            token_analytics_pageiframe.contentWindow.location.reload(true);
+            window.isFrTokenAnayltics = false;
+        };
+    };
+}
+function loadIframeSource9() {
+    if (window.nftTrackerLoaded == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+        document.getElementById('nfttrackeriframe').src = '/nfttracker-frame?m=' + window.mode + '&contractAddress=' + litNFTDextrackerContractAddress + '&a=' + litNFTAddressdex + '&lg=' + litLanguage + '&tid=' + litAddress6 + '#trade';
+    } else {
+        if (window.isBackButton == true && window.isFrNFTTracker == true) {
+            token_analytics_pageiframe.contentWindow.location.reload(true);
+            window.isFrNFTTracker = false;
+        };
+    };
+}
+function loadCardsIframe() {
+    if (window.cards_loaded == false) {
+        document.getElementById('overlayMain').style.display = 'block';
+        document.getElementById('cardsIframe').src = '/address-cards?m=' + window.mode + '&a=' + litContractAddress + '&t=' + addressType;
+    } else {
+        if (window.isBackButton == true && window.isFrCards == true) {
+            cardsIframe.contentWindow.location.reload(true);
+            window.isFrCards = false;
+        };
+    };
+}
+function loadIframeSourceProxyRead(fLine) {
+    if (window.readProxyContractLoaded == false) {
+        showLoader(window.readProxyContractLoaded);
+        window.readProxyContractLoaded = true;
+        let src = '/readContract?m=' + window.mode + '&a=' + litreadContractAddress + '&n=' + strNetwork + '&v=' + litProxyContractABIAddress;
+        if (fLine) {
+            src = '/readContract?m=' + window.mode + '&a=' + litreadContractAddress + '&n=' + strNetwork + '&v=' + litProxyContractABIAddress + '&F=' + fLine;
+        }
+        document.getElementById('readproxycontractiframe').src = src;
+    }
+}
+
+function loadIframeSourceProxyWrite(fLine) {
+    if (window.writeProxyContractLoaded == false) {
+        showLoader(window.writeProxyContractLoaded);
+        window.writeProxyContractLoaded = true;
+        let src = '/writecontract/index?m=' + window.mode + '&v=21.10.1.1&a=' + litreadContractAddress + '&p=' + litProxyContractABIAddress + '&n=' + strNetwork;
+        if (fLine) {
+            src = '/writecontract/index?m=' + window.mode + '&v=21.10.1.1&a=' + litreadContractAddress + '&p=' + litProxyContractABIAddress + '&n=' + strNetwork + '&F=' + fLine;
+        }
+        document.getElementById('writeproxycontractiframe').src = src;
+    }
+}
+
+// Read Custom and Write Custom load identically - they differ only in their target iframe, pane and URL - so one
+// loader drives both. The four exported names are kept because inline onclick attributes in token/generic.aspx and
+// the Reset links rendered by readcontract.aspx.vb / writecustomcontract.aspx.vb call them by name.
+// [enh#5438] Custom ABI iframe loaders (through showCustomAbiIframeError below). Copied from the address page's
+// addresspage4.js equivalents; keep in sync. De-dup into a shared JS file is tracked as a separate ticket.
+var customAbiPanes = {
+    read: {
+        loadedFlag: 'readCustomContractLoaded',
+        iframeId: 'readcustomcontractiframe',
+        paneId: 'readCustomContract',
+        label: 'Read Custom',
+        buildUrl: function () {
+            return '/readContract?m=' + window.mode + '&a=' + litreadContractAddress + '&n=' + strNetwork + '&c=' + litCustomContractABIAddress;
+        }
+    },
+    write: {
+        loadedFlag: 'writeCustomContractLoaded',
+        iframeId: 'writecustomcontractiframe',
+        paneId: 'writeCustomContract',
+        label: 'Write Custom',
+        buildUrl: function () {
+            return '/writecustomcontract.aspx?m=' + window.mode + '&v=21.10.1&c=' + litCustomContractABIAddress + '&n=' + strNetwork;
+        }
+    }
+};
+
+function loadCustomAbiIframe(pane, fLine) {
+    if (window[pane.loadedFlag] !== false) return;
+
+    var customAbiUrl = pane.buildUrl();
+    if (fLine) customAbiUrl += '&F=' + fLine;
+
+    // current() reads the ABI the user applied on this page, which the page holds in memory rather than in browser
+    // storage. A stale cached custom-abi-storage.js may not have the method, so probe for it and keep the call
+    // guarded: a missing method or an exception has to degrade to the plain src load, not throw past the try below
+    // and leave the nav's showLoader() overlay stuck over an empty tab.
+    var localCustomAbi = '';
+    var customAbiStorageApi = window.CustomAbiStorage;
+    if (customAbiStorageApi && typeof customAbiStorageApi.current === 'function') {
+        var localCustomAbiState = null;
+        try {
+            localCustomAbiState = customAbiStorageApi.current(window.customAbiChainId, litCustomContractABIAddress);
+        } catch (currentError) {
+            localCustomAbiState = null;
+        }
+
+        // An applied ABI that does not validate must not fall through to the server ABI - that would render a
+        // different interface than the one the user applied, with nothing to say so.
+        if (localCustomAbiState && localCustomAbiState.present && !localCustomAbiState.abi) {
+            window[pane.loadedFlag] = false;
+            showCustomAbiIframeError('Unable to load ' + pane.label + '. ' + localCustomAbiState.error, pane.paneId);
+            return;
+        }
+
+        if (localCustomAbiState) localCustomAbi = localCustomAbiState.abi;
+    }
+
+    try {
+        if (localCustomAbi) {
+            customAbiStorageApi.postToIframe(pane.iframeId, customAbiUrl, localCustomAbi, sid);
+        } else {
+            document.getElementById(pane.iframeId).src = customAbiUrl;
+        }
+        clearCustomAbiIframeError(pane.paneId);
+        window[pane.loadedFlag] = true;
+    } catch (error) {
+        window[pane.loadedFlag] = false;
+        showCustomAbiIframeError('Unable to load ' + pane.label + '. Please check the local ABI and try again.', pane.paneId);
+    }
+}
+
+function reloadCustomAbiIframe(pane) {
+    window[pane.loadedFlag] = false;
+    showLoader(false);
+    loadCustomAbiIframe(pane);
+}
+
+function loadIframeSourceCustomRead(fLine) {
+    loadCustomAbiIframe(customAbiPanes.read, fLine);
+}
+
+function reloadIframeSourceCustomRead() {
+    reloadCustomAbiIframe(customAbiPanes.read);
+}
+
+function loadIframeSourceCustomWrite(fLine) {
+    loadCustomAbiIframe(customAbiPanes.write, fLine);
+}
+
+function reloadIframeSourceCustomWrite() {
+    reloadCustomAbiIframe(customAbiPanes.write);
+}
+
+function clearCustomAbiIframeError(paneId) {
+    var pane = document.getElementById(paneId);
+    var paneStatus = pane && pane.querySelector('.js-custom-abi-pane-status');
+    if (paneStatus) paneStatus.replaceChildren();
+}
+
+function showCustomAbiIframeError(message, paneId) {
+    var overlay = document.getElementById('overlayMain');
+    if (overlay) overlay.style.display = 'none';
+
+    var alert = document.createElement('div');
+    alert.className = 'alert alert-danger';
+    alert.setAttribute('role', 'alert');
+    alert.textContent = message;
+
+    // Render into the pane the user is actually looking at; #CustomABIPageStatusResult
+    // lives inside the #code pane, which is hidden once Read/Write Custom is selected.
+    var pane = paneId ? document.getElementById(paneId) : null;
+    if (pane) {
+        var paneStatus = pane.querySelector('.js-custom-abi-pane-status');
+        if (!paneStatus) {
+            paneStatus = document.createElement('div');
+            paneStatus.className = 'js-custom-abi-pane-status';
+            pane.prepend(paneStatus);
+        }
+        paneStatus.replaceChildren(alert);
+        return;
+    }
+
+    var status = document.getElementById('CustomABIPageStatusResult');
+    if (!status) return;
+
+    status.replaceChildren(alert);
+    status.classList.remove('d-none');
+}
+
+var blnIsCurrentPrice = true;
+var marketCapValue = '0.00';
+var currentPrice = '$0';
+var currentPriceValue = '0';
+if (document.getElementById('pricebutton') != null) {
+    currentPrice = document.getElementById('pricebutton').innerText;
+}
+
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function (searchString, position) {
+        position = position || 0;
+        return this.indexOf(searchString, position) === position;
+    };
+}
+
+if (litMarketCap.startsWith("$"))
+    marketCapValue = litMarketCap.substring(1);
+else
+    marketCapValue = litMarketCap.substring(4);
+
+if (currentPrice.startsWith("$"))
+    currentPriceValue = currentPrice.substring(1);
+else
+    currentPriceValue = currentPrice.substring(4);
+
+if (currentPriceValue === '0.00') currentPriceValue = '0';
+
+if (marketCapValue == "0.00" && currentPriceValue == "0") {
+    $('#pricebutton').attr('data-original-title', 'Not available');
+} else if (litMarketCap == "0.00" && currentPriceValue != "0") {
+    $('#pricebutton').attr('data-original-title', 'Fully Diluted');
+} else if (currentPriceValue != "0") {
+    var marketcaporititle = document.getElementById('marketcaptitle').innerHTML;
+    $("#pricebutton").click(function () {
+        if (blnIsCurrentPrice == true) {
+            document.getElementById('pricebutton').innerText = litMarketCap || "Not Available";
+            $('#pricebutton').attr('data-original-title', 'Click to switch back');
+            $('#pricebutton').tooltip('show');
+            document.getElementById('marketcaptitle').innerText = "Circulating Supply Market Cap";
+            document.getElementById('marketcaptooltip').style.display = "none";
+            blnIsCurrentPrice = false;
+        } else {
+            document.getElementById('pricebutton').innerText = currentPrice;
+            $('#pricebutton').attr('data-original-title', 'Click to switch');
+            $('#pricebutton').tooltip('show');
+            //$(this).mouseover();
+            document.getElementById('marketcaptitle').innerHTML = marketcaporititle;
+            document.getElementById('marketcaptooltip').style.display = "";
+            blnIsCurrentPrice = true;
+        }
+        $(this).blur()
+    });
+} else {
+    //document.getElementById('marketcaptooltip').style.display = "none";
+    $('#pricebutton').attr('data-original-title', 'Not Available');
+}
+
+function resizeIframe(obj, addwidth) {
+    setTimeout(function () {
+        obj.style.height = 0;
+        obj.style.height = (obj.contentWindow.document.body.scrollHeight + addwidth) + 20 + 'px';
+        obj.parentElement.style.visibility = 'visible';
+    }, 300);
+}
+
+function loadFancyBox(obj, index) {
+    $.fancybox.defaults.loop = true;
+    $.fancybox.open(obj, {
+        afterLoad: function (instance, current) {
+            if (current.width == 0) {
+                current.width = 400
+                current.height = 400;
+            } else if (current.width < 200) {
+                current.width = current.width * 3;
+                current.height = current.height * 3;
+            } else {
+                current.width = current.width * 1.3;
+                current.height = current.height * 1.3;
+            }
+
+            if (instance.currIndex === current.index) {
+                var tokenid = $(this.opts).attr("tokenid");
+                var owner = $(this.opts).attr("owner");
+                var contractaddress = $(this.opts).attr("contractaddress");
+
+                if (tokenid) {
+                    tokenid = litTokenID + " : #<a href='/token/" + contractaddress + "?a=" + tokenid + "' target='_parent'>" + tokenid + "</a></span>"
+                    $(".fancybox-tokenid").html(tokenid);
+                }
+
+                if (owner) {
+                    owner = "<span class='d-block owner'>" + litOwner + ": <a href='/token/" + contractaddress + "?a=" + owner + "' target='_parent'>" + owner + "</a></span>"
+                    $(".fancybox-owner").html(owner);
+                }
+            }
+        },
+        baseTpl: '<div class="fancybox-container" role="dialog" tabindex="-1">' +
+            '<div class="fancybox-bg"></div>' +
+            '<div class="fancybox-inner">' +
+            '<div class="fancybox-infobar"><span data-fancybox-index></span>&nbsp;/&nbsp;<span data-fancybox-count></span></div>' +
+            '<div class="fancybox-toolbar">{{buttons}}</div>' +
+            '<div class="fancybox-navigation">{{arrows}}</div>' +
+            '<div class="fancybox-stage"></div>' +
+            '<div class="fancybox-caption fancybox-caption--separate"><div class="fancybox-tokenid fancybox-caption__body"></div><div class="fancybox-owner fancybox-caption__body"></div></div>' +
+            "</div>" +
+            "</div>"
+    }, index);
+    // obj.fancybox();
+}
+
+async function addToWallet() {
+    var objProvider = await initweb3walletProvider("MetaMask");
+    web3ojb = objProvider.web3obj;
+
+    if (typeof web3ojb == 'undefined') {
+        if (typeof ethereum !== 'undefined') {
+            web3obj = new Web3(ethereum);
+        } else if (typeof web3 !== 'undefined') {
+            web3obj = new Web3(web3.currentProvider);
+        } else {
+            alert('No web3 provider');
+            return;
+        }
+    }
+
+    var network = 0;
+    web3obj.eth.net.getId((err, netId) => {
+        network = netId.toString();
+        network = getChainId(network);
+
+        if (network.toLowerCase() !== net.toLowerCase()) {
+            let chainIdHex = getChainIdHex(net);
+            switchEthereumChainWithProvider(web3obj.currentProvider, chainIdHex).then(() => {
+                try {
+                    addEthereumTokenWithProvider(litAssetType, litAssetAddress, $.sanitize(litAssetSymbol), litAssetDecimal, litAssetLogo, web3obj.currentProvider).then((data) => {
+                        if (data.result) {
+                            console.log('Token added');
+                        } else {
+                            console.log('Some error');
+                        }
+                    });
+                } catch (e) {
+                    //console.log(e);
+                }
+            });
+
+            //alert("Please connect to " + net + ' network');
+            return false;
+        } else {
+            try {
+                addEthereumTokenWithProvider(litAssetType, litAssetAddress, $.sanitize(litAssetSymbol), litAssetDecimal, litAssetLogo, web3obj.currentProvider).then((data) => {
+                    if (data.result) {
+                        console.log('Token added');
+                    } else {
+                        console.log('Some error');
+                    }
+                });
+            } catch (e) {
+                //console.log(e);
+            }
+        }
+    });
+}
+
+(function ($) {
+    $.sanitize = function (val) {
+        var temp = document.createElement('div');
+        temp.textContent = val;
+        return temp.innerHTML;
+        //var output = input.replace(/<script[^>]*?>.*?<\/script>/gi, '').
+        //    replace(/<[\/\!]*?[^<>]*?>/gi, '').
+        //    replace(/<style[^>]*?>.*?<\/style>/gi, '').
+        //    replace(/<![\s\S]*?--[ \t\n\r]*>/gi, '');
+        //return output;
+    };
+})(jQuery);
+
+$('.js-tab-external-link').on('click', function (event) {
+    // Prevent url change
+    event.preventDefault();
+    // `this` is the clicked <a> tag
+    $('[data-bs-toggle="tab"][href="' + this.hash + '"]').trigger('click');
+});
+
+function goToContactUs() {
+    window.location.href = '/contactus?id=4';
+}
+
+function renderSupplyBurnt() {
+    $("#divSupplyBurnt").text("");
+    $.ajax({
+        dataType: "json",
+        type: 'GET',
+        url: '/renderDynamicTooltip.ashx',
+        data: { term: "getsuppyburnt" + "~" + litContAdd },
+        success: function (data) {
+            $("#spinwheel").prop("style", "display:none;");
+            var i;
+            var flag = false;
+            var strContent;
+            var totalBurnt = 0;
+            strContent = "<ul class='list-unstyled my-3'>";
+            for (i = 0; i < data.length; i++) {
+                if (data[i].split('\t')[1] != "") {
+                    flag = true;
+                    var j = i + 1;
+                    /* strContent = strContent + "<li class='row mb-3'><div class='col-6'><div class='d-flex'><div class='btn btn-icon btn-soft-secondary rounded-circle'><span class='btn-icon__inner'>" + j + "</span></div>"*/
+                    strContent = strContent + "<li class='row mb-3'><div class='col-6'><div class='d-flex gap-2'><div><div class='rounded-circle content-center bg-secondary bg-opacity-25 text-dark' style='width: 1.5rem; height: 1.5rem;'>" + j + "</div></div>"
+
+                    var link = "";
+                    if (data[i].split('\t')[2] != "") {
+                        link = "<a href='" + data[i].split('\t')[2] + "' target='_blank' class='link-hover-secondary' rel='nofollow'><i class='far fa-external-link ms-1'></i></a>";
+                    }
+                    strContent = strContent + "<div class=''><span class='d-flex gap-2'>" + data[i].split('\t')[1] + link + "</span>";
+
+                    var txn = ""
+                    if (data[i].split('\t')[3] != "") {
+                        txn = "<span class='d-flex flex-nowrap align-items-baseline gap-2 text-muted'>Txn: <a href='/tx/" + data[i].split('\t')[3] + "' target='_blank' style='max-width:68px!important;' class='hash-tag hash-tag--xss text-truncate small'>" + data[i].split('\t')[3] + "</a><span class='text-nowrap'>" + data[i].split('\t')[4] + "</span></span>";
+                    }
+
+                    var burntVal = data[i].split('\t')[5].toString().split(".");
+                    strContent = strContent + txn + "</div></div></div><div class='col text-end'>-" + burntVal[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + burntVal[1].slice(0, 8) + "... " + $("#ContentPlaceHolder1_hdnSymbol").val() + "</div></li>";
+
+                    totalBurnt = parseFloat(totalBurnt) + parseFloat(data[i].split('\t')[5]);
+                }
+            }
+
+            if (flag === true) {
+                /*var total = "<li><hr class='my-3'></li><li class='row mb-1'><div class='col-5'>Total Burn:</div><div class='col text-end'><strong>-" + totalBurnt.toFixed(18) + " " + $("#ContentPlaceHolder1_hdnSymbol").val() + "</strong></div></li>";*/
+
+                var strTotalBurnt = totalBurnt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                var total = "<li><hr class='my-3'></li><li class='row mb-1'><div class='col-5'>Total Burn:</div><div class='col text-end'><strong>-" + strTotalBurnt + "." + "00000000" + "... " + " " + $("#ContentPlaceHolder1_hdnSymbol").val() + "</strong></div></li>";
+
+                var actualValue = (parseFloat($("#ContentPlaceHolder1_hdnTotalSupply").val().replace(/,/g, '')) - totalBurnt).toFixed(18);
+                var array = actualValue.toString().split(".");
+                var afterBurn = "<li class='row'><div class='col-5'>Total Supply (After Burn):</div><div class='col text-end'><strong>" + array[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + array[1].slice(0, 8) + "... " + " " + "</span> " + $("#ContentPlaceHolder1_hdnSymbol").val() + "</strong></div></li>";
+
+                strContent = strContent + total + afterBurn + "</ul>";
+                $("#divSupplyBurnt").append(strContent);
+            }
+            else {
+                $("#divSupplyBurnt").append("<div class='u-label--warning text-center'>No data.</div>");
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            //console.log(textStatus);
+            //console.log(errorThrown);
+        }
+    });
+}
+
+if (document.getElementById('infoSupplyBurnt') !== null) {
+    var bootstrapSupplyBurnt = new bootstrap.Popover('#infoSupplyBurnt', {
+        trigger: "focus",
+        html: true,
+        content: "<div id='divSupplyBurnt'><i id='spinwheel' class='fa fa-spin fa-spinner fa-1x fa-pulse me-1' style='display: block;'></i></div>",
+        title: "Token Burn Events"
+    });
+
+    document.getElementById('infoSupplyBurnt').addEventListener('show.bs.popover', () => {
+        renderSupplyBurnt()
+    })
+}
+
+//$('#infoSupplyBurnt').popover({
+//    trigger: "click",
+//    html: true,
+//    content: "<div id='divSupplyBurnt'><i id='spinwheel' class='fa fa-spin fa-spinner fa-1x fa-pulse me-1' style='display: block;'></i></div>",
+//    title: "Token Burn Events"
+//});
+
+$('body').on('click', function (e) {
+    //did not click a popover toggle or popover
+    if ($(e.target).data('bs-toggle') !== 'popover'
+        && $(e.target).parents('.popover.in').length === 0) {
+        $('[data-bs-toggle="popover"]').popover('hide');
+    }
+});
+
+//-- begin code for checking for disqus comments---        
+
+if (blnCheckDisqusCount == true) {
+    checkdisquscomment();
+}
+
+function checkdisquscomment() {
+    $.ajax({
+        type: 'Get',
+        url: '/datahandler.ashx',
+        data: {
+            t: 'disqcommentchck',
+            id: disqus_title,
+            type: 'tkn'
+        },
+        success: function (res) {
+            if (res == 1) {
+                document.getElementById("commentindicator").innerHTML = "<sup><i class='fas fa-circle text-success ms-1' title='There are comment(s) for this item'></i></sup>"
+            }
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+}
+//-- End code for checking for disqus comments---
+
+//-- begin code for token holders sparkline graph---    
+if (holdersplotData != '') {
+    var sparkOptions = {
+        chart: {
+            renderTo: 'sparkholderscontainer',
+            backgroundColor: null,
+            borderWidth: 0,
+            type: 'area',
+            margin: [2, 0, 2, 0],
+            width: 120,
+            height: 20,
+            style: {
+                overflow: 'visible'
+            },
+            skipClone: true
+        },
+        title: {
+            text: ''
+        },
+        credits: {
+            enabled: false
+        },
+        xAxis: {
+            labels: {
+                enabled: false
+            },
+            title: {
+                text: null
+            },
+            startOnTick: false,
+            endOnTick: false,
+            tickPositions: []
+        },
+        yAxis: {
+            min: holdersplotMinValue,
+            endOnTick: false,
+            startOnTick: false,
+            labels: {
+                enabled: false
+            },
+            title: {
+                text: null
+            },
+            tickPositions: [0]
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            hideDelay: 0,
+            outside: true,
+            shared: true,
+            formatter: function () {
+                var content = "";
+                if (blnAlsoShowPriceInSpark == true) {
+                    $.each(this.points, function (i, point) {
+                        content += '<span style="font-size: 11px">' + Highcharts.dateFormat('%a %e, %b %Y', new Date(this.x))
+                            + '<br><b>' + this.y + '</b> Holders</span>' + '<br><br>(' + this.point.cval + ')';
+                    });
+                } else {
+                    content = '<span style="font-size: 11px">' + Highcharts.dateFormat('%a %e, %b %Y', new Date(this.x))
+                        + '<br><b>' + this.y + '</b> Holders</span>';
+                }
+                return content;
+            }
+        },
+        accessibility: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                animation: false,
+                lineWidth: 1,
+                shadow: false,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                marker: {
+                    radius: 1,
+                    states: {
+                        hover: {
+                            radius: 2
+                        }
+                    }
+                },
+                fillOpacity: 0.25
+            },
+            column: {
+                negativeColor: '#910000',
+                borderColor: 'silver'
+            }
+        }
+    };
+    var t = new Highcharts.Chart(sparkOptions);
+    t.addSeries({
+        keys: ['x', 'y'],
+        data: holdersplotData
+    });
+}
+
+//editor 
+EtherEditor.init({
+    container: document.getElementById('editor-1'),
+    localFiles: editor_contractJsonData,
+    activeFile: editor_activeFile
+});
+// endeditor 
+
+function initialiseKeyupOnDocReady() {
+    var input = document.getElementById("txtSearchContract");
+    if (input) {
+        input.addEventListener("keyup", function (event) {
+            var flag = false;
+            if (event.keyCode === 40 || event.keyCode === 13) { // On Enter Key Press or Down Arrow Press
+                searchContractNext();
+                flag = true;
+            } else if (event.keyCode === 38) { // On Up Arrow Press
+                searchContractPrevious();
+                flag = true;
+            }
+            if (!flag) {
+                searchContractOnThisPage();
+            }
+            if ($("#txtSearchContract").val().trim() === "") {
+                searchContractOnThisPage();
+            }
+        });
+    }
+
+    var ctrlDown = false, ctrlKey = 17, cmdKey = 91, vKey = 86, cKey = 67;
+    $(document).keydown(function (e) {
+        if (e.keyCode == ctrlKey || e.keyCode == cmdKey) ctrlDown = true;
+    }).keyup(function (e) {
+        if (e.keyCode == ctrlKey || e.keyCode == cmdKey) ctrlDown = false;
+    });
+
+    // Document Ctrl + C/V 
+    $(document).keydown(function (e) {
+        //if (ctrlDown && (e.keyCode == cKey)) console.log("Document catch Ctrl+C");
+        if (ctrlDown && (e.keyCode == vKey)) {
+            clearControls();
+        }
+    });
+}
+
+window.smoothScroll = function (target) {
+    var scrollContainer = target;
+    do { //find scroll container
+        scrollContainer = scrollContainer.parentNode;
+        if (!scrollContainer) return;
+        scrollContainer.scrollTop += 1;
+    } while (scrollContainer.scrollTop == 0);
+
+    var targetY = 0;
+    do { //find the top of target relatively to the container
+        if (target == scrollContainer) break;
+        targetY += target.offsetTop;
+    } while (target = target.offsetParent);
+
+    scroll = function (c, a, b, i) {
+        i++; if (i > 30) return;
+        c.scrollTop = a + (b - a) / 30 * i;
+        setTimeout(function () { scroll(c, a, b, i); }, 20);
+    }
+    // start scrolling
+    scroll(scrollContainer, scrollContainer.scrollTop, targetY - 50, 0);
+}
+
+function myTocSelect(searchText, pos) {
+    var editorId = "editor" + (pos || "");
+    var target_editor = ace.edit(editorId);
+
+    if (searchText == "") {
+        target_editor.gotoLine(0, 0, true);
+    } else {
+        var range = target_editor.find(searchText, {
+            wrap: true,
+            caseSensitive: false,
+            wholeWord: false,
+            regExp: false
+        });
+
+        range.start.column = 0;
+        range.end.column = Number.MAX_VALUE;
+        target_editor.selection.selectLine();
+        target_editor.selection.setRange(range, false);
+    }
+}
+
+function copySourceCodeBtn(el) {
+    try {
+        var editorId = $(el).closest($(".d-flex")).next().attr("id");
+        var editor = ace.edit(editorId);
+        var sel = editor.selection.toJSON(); // save selection
+        editor.selectAll();
+        editor.focus();
+        document.execCommand('copy');
+        editor.selection.fromJSON(sel); // restore selection
+        //alert('Source code copied to clipboard');
+
+        //get i element and original image class
+        changeCopyIcon(el, "Copied");
+    } catch (err) {
+        //console.log('Oops, unable to copy');
+    }
+}
+
+function generatePermalink(el) {
+    try {
+
+        var editorId = $(el).closest($(".d-flex")).next().attr("id");
+        var editor = ace.edit(editorId);
+        var cursorPosition = editor.getCursorPosition();
+
+        var row = cursorPosition.row + 1;
+
+        var currentUrl = window.location.href;
+        var baseUrl = currentUrl.split("#")[0] + "#code";
+
+        var fileNumber = editorId.replace("editor", "");
+        if (fileNumber) {
+            baseUrl = baseUrl + "#F" + fileNumber;
+        }
+
+        baseUrl = baseUrl + "#L" + row;
+
+        //copy to clipboard code
+        var elem = document.createElement('textarea');
+        elem.value = baseUrl;
+        document.body.appendChild(elem);
+        elem.select();
+        document.execCommand('copy');
+        document.body.removeChild(elem);
+
+        //get i element and original image class
+        changeCopyIcon(el, "Copied");
+
+    } catch (err) {
+        //console.log('Oops, unable to generate permalink');
+    }
+}
+
+function changeCopyIcon(el, tooltipText) {
+    var iElem = $(el).children("i")[0];
+    var oriImageClass = $(iElem).attr("class");
+    var oriTooltip = $(el).attr('data-original-title');
+    var checkImageClass = 'fa fa-check btn-icon__inner'
+
+    $(iElem).removeClass(oriImageClass).addClass(checkImageClass);
+    $(el).attr('data-original-title', tooltipText);
+
+    setTimeout(() => {
+        $(el).tooltip('show');
+    }, 1);
+
+    setTimeout(() => {
+        $(iElem).removeClass(checkImageClass).addClass(oriImageClass);
+        $(el).attr('data-original-title', oriTooltip)
+    }, 1000)
+}
+
+function copyAbiBtn() {
+    var range = document.createRange();
+    range.selectNode(document.getElementById("js-copytextarea2"));
+    var selectionRange = window.getSelection();
+    selectionRange.removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("Copy");
+    alert("Contract ABI copied to clipboard");
+    //var el = $("#js-copytextarea2");
+    //changeCopyIcon(el, "Copied");
+}
+
+function Count(text) {
+    var maxlength = 500;
+    var object = document.getElementById(text.id); //get your object
+    if (object.value.length > maxlength) {
+        object.focus();
+        object.value = text.value.substring(0, maxlength); //truncate the value
+        object.scrollTop = object.scrollHeight; //scroll to the end to prevent jumping
+        return false;
+    }
+    return true;
+}
+
+function myFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById('myInput2');
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("balancelist");
+    li = ul.getElementsByTagName('li');
+    for (i = 1; i < li.length; i++) {
+        a = li[i].getElementsByClassName('liH')[0];
+
+        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+            li[i].style.display = "";
+        } else {
+            li[i].style.display = "none";
+        }
+    }
+}
+
+function openPrintWindow(id, address, token, mode) {
+    window.open("https://reports.etherscan.io/reports?id=" + id + "&a=" + address + "&token=" + token + "&m=" + mode, "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=50,width=" + (screen.width - 150) + ",height=" + (screen.height - 250));
+}
+function copyAbiBtn2(el) {
+    var range = document.createRange();
+    range.selectNodeContents(document.getElementById("js-copytextarea2"));
+    var selectionRange = window.getSelection();
+    selectionRange.removeAllRanges()
+    window.getSelection().addRange(range);
+    document.execCommand("Copy");
+    //alert("Contract ABI copied to clipboard")
+    //var el = $("#js-copytextarea2");
+    changeCopyIcon(el, "Copied");
+};
+function copyCustomAbiBtn2(el) {
+    var range = document.createRange();
+    range.selectNodeContents(document.getElementById("js-copycustomtextarea2"));
+    var selectionRange = window.getSelection();
+    selectionRange.removeAllRanges()
+    window.getSelection().addRange(range);
+    document.execCommand("Copy");
+    //alert("Custom ABI copied to clipboard")
+    changeCopyIcon(el, "Copied");
+};
+
+function displayAudit() {
+    $('html, body').animate({
+        scrollTop: $("#auditReportId").offset().top - adjustPosition
+    });
+}
+
+function js_addresspage4_ace_extension_panel_sourcecode() {
+    var self = this;
+    var observer = self.observer;
+
+    // ---- function of event when seach text position is changing
+    observer = new MutationObserver(function (mutations) {
+        mutations.forEach(function (mutationRecord) {
+            var target = mutationRecord.target
+            var parent = $(target).parent()
+            if (!parent.hasClass("ace_focus")) {
+                var styleTop = target.style.top
+                var intOffSetTop = parseFloat(parent.offset().top)
+                var intScreenHeight = parseFloat(screen.height)
+                var intStyleTop = parseFloat(styleTop)
+                //var target_sticky = parent.find("div.ace_search")[0]
+                //if (target_sticky) {
+                //    target_sticky.style.top = (intStyleTop - (intScreenHeight/2)) + 'px'
+                //}
+                window.scroll({
+                    top: intStyleTop + (intOffSetTop) - (intScreenHeight / 2),
+                    left: window.scrollX,
+                })
+            }
+        });
+    });
+
+    // ---- on listener event when toggle fullscreen
+    self.onObserve = function () {
+        var target = $("#" + currentEditor).find("textarea.ace_text-input")[0];
+        observer.observe(target, { attributes: true, attributeFilter: ['style'], attributeOldValue: true });
+        $(window).on('scrolldelta', function (e) { self.doWhenScroll(target, e) });
+    }
+
+    // ---- off listener event when toggle minimize screen
+    self.offObserve = function () {
+        observer.disconnect();
+        $(window).off('scrolldelta')
+    }
+
+    //----- function scroll event to get amount scrolling and add to seach box position ------
+    self.doWhenScroll = function (target, e) {
+        var parent = $(target).parent()
+        var target_sticky = parent.find("div.ace_search")[0]
+        if (target_sticky) {
+            var top = e.scrollTop;
+            var topDelta = e.scrollTopDelta;
+            //var left = e.scrollLeft;
+            //var leftDelta = e.scrollLeftDelta;
+
+            // do stuff with the above info; for now just display it to user
+            //var feedbackText = 'scrollTop: ' + top.toString() + 'px (' + (topDelta >= 0 ? '+' : '') + topDelta.toString() + 'px), scrollLeft: ' + left.toString() + 'px (' + (leftDelta >= 0 ? '+' : '') + leftDelta.toString() + 'px)';
+
+            //----- get amount scrollTop and add to seach box ------
+            var intOffSetTop = parseFloat(parent.offset().top)
+            if (top > intOffSetTop) {
+                var extraTop = (top - topDelta) < intOffSetTop ? (intOffSetTop - (top - topDelta)) : 0
+                var intStyleTop = parseFloat(target_sticky.style.top) || 0
+                target_sticky.style.top = (intStyleTop + topDelta - extraTop) + 'px'
+            } else {
+                target_sticky.style.top = 0 + 'px'
+            }
+        }
+    }
+}
+
+var js_addresspage4_ace_extension_panel_sourcecode = new js_addresspage4_ace_extension_panel_sourcecode();
+
+var currentmode = 'hex';
+var orival = document.getElementById('dividcode').innerHTML;
+var decodedval = '';
+var straddress = litContractAddress;
+function showopcodesforverifiedcontract() {
+    if (currentmode == 'hex') {
+        if (decodedval == '') {
+            tmpval = getDecodedCode(straddress, strURL);
+            decodedval = tmpval;
+            orival = document.getElementById('verifiedbytecode2').innerHTML;
+        } else {
+            tmpval = decodedval;
+        }
+        document.getElementById('verifiedbytecode2').innerHTML = tmpval;
+        document.getElementById('btnConvert3').innerHTML = '<i class="fa fa-undo txhash-icon me-1"></i> Switch Back To Bytecodes View';
+        currentmode = 'asc';
+    } else {
+        document.getElementById('verifiedbytecode2').innerHTML = orival;
+        document.getElementById('btnConvert3').innerHTML = '<i class="fa fa-undo txhash-icon me-1"></i> Switch To Opcodes View';
+        currentmode = 'hex';
+    }
+}
+
+function getDecodedCode(strval, strUrl) {
+    var strResult = ' ... Processing ....';
+    var url;
+    url = strUrl + '/api?module=opcode&action=getopcode&address=' + strval;
+    $.ajax({
+        url: url,
+        type: "GET",
+        async: false,
+        cache: true,
+        dataType: "json",
+        success: function (result) {
+            strResult = result.result;
+        },
+        error: function (data) {
+            //console.log('Error in [getDecodedCode]');
+        },
+    });
+    return strResult;
+}
+
+function convertstr(strval) {
+    if (currentmode == 'hex') {
+        if (decodedval == '') {
+            tmpval = getDecodedCode(strval, strURL);
+            decodedval = tmpval;
+            orival = document.getElementById('verifiedbytecode_convert222').innerHTML;
+        } else {
+            tmpval = decodedval;
+        }
+        document.getElementById('verifiedbytecode_convert222').innerHTML = "<pre class='wordwrap'>" + tmpval + "</pre>";
+        document.getElementById('ContentPlaceHolder1_btnconvert222').innerHTML = '<i class="fa fa-undo txhash-icon me-1"></i> Switch Back To Bytecodes View';
+        currentmode = 'asc';
+    } else {
+        document.getElementById('verifiedbytecode_convert222').innerHTML = orival;
+        document.getElementById('ContentPlaceHolder1_btnconvert222').innerHTML = '<i class="fa fa-undo txhash-icon me-1"></i> Switch To Opcodes View';
+        currentmode = 'hex';
+    }
+}
+
+function showopcodesforverifiedcontract() {
+    if (currentmode == 'hex') {
+        if (decodedval == '') {
+            tmpval = getDecodedCode(straddress, strURL);
+            decodedval = tmpval;
+            orival = document.getElementById('verifiedbytecode2').innerHTML;
+        } else {
+            tmpval = decodedval;
+        }
+        document.getElementById('verifiedbytecode2').innerHTML = tmpval;
+        document.getElementById('btnConvert3').innerHTML = '<i class="fa fa-undo txhash-icon me-1"></i> Switch Back To Bytecodes View';
+        currentmode = 'asc';
+    } else {
+        document.getElementById('verifiedbytecode2').innerHTML = orival;
+        document.getElementById('btnConvert3').innerHTML = '<i class="fa fa-undo txhash-icon me-1"></i> Switch To Opcodes View';
+        currentmode = 'hex';
+    }
+}
+//End Code tab
+
+
+// code reader
+if (IsCodeReader === "1") {
+    // INITIALIZATION OF TOGGLE PASSWORD
+    // =======================================================
+    new HSTogglePassword('.js-toggle-password')
+
+    //// TEXTAREA SIZER
+    //// =======================================================
+    //const tx = document.getElementsByClassName("js-textarea-type-message");
+    //for (let i = 0; i < tx.length; i++) {
+    //    tx[i].setAttribute("style", "height:" + (tx[i].scrollHeight) + "px; overflow-y: hidden; resize: none; max-height: 12rem;");
+    //    tx[i].addEventListener("input", OnInput, false);
+    //}
+    //function OnInput() {
+    //    this.style.height = "auto";
+    //    this.style.height = (this.scrollHeight) + "px";
+    //}
+
+    const oa_rolesystemcontent = $('#oa_rolesystemcontent').val()
+    const oa_max_tokens = 5000
+    const claude_max_tokens = 5000
+    var inputMaxTokens = $('#inputMaxTokens')
+    var divMaxTokens = $('#divMaxTokens')
+    var oa_model = ""
+    var modalSavedHistory = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalSavedHistory'))
+    var responseSavedHistory = []
+    var gotNew = true
+
+    var gptMode = $('#gptMode')
+    var chkSaveKey = $('#saveKeySwitcher')
+    var checkboxes = document.querySelectorAll('input[name="chkContractFile"]');
+    var divModal = $('#divModal')
+    var chkSaveHistory = $('#saveHistorySwitcher')
+    var divGeneratedOpenAI = $('#divGeneratedOpenAI')
+    var divAnswer = $('#divAnswer')
+    var divPormt = $('#divPormt')
+    var txtPrompt = $('#txtPrompt')
+    var inputOpenAIApiKey = $('#inputOpenAIApiKey')
+    var divApiKey = $('#divApiKey')
+    var divPormtAnswer = $('#divPormtAnswer')
+    var btnSavedHistory = $('#btnSavedHistory')
+    var txtFeedback = $('#txtFeedback')
+    var aiProvider = $('#aiProvider')
+    var gptModeExtra = $('#gptModeExtra')
+    var apiKeyLabel = $('#apiKeyLabel')
+    var apiKeyLearnMore = $('#apiKeyLearnMore')
+
+    var aiProviderConfig = {
+        openai: {
+            apiKeyLabel: 'OpenAI API Key',
+            apiKeyStorageKey: 'openaiapikey',
+            learnMoreUrl: 'https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key',
+            useApiModels: true,
+            models: [
+                { value: 'gpt-5.5', text: 'GPT-5.5', note: 'Please ensure this API Key has access to GPT-5.5 Model.' },
+                { value: 'gpt-5.4', text: 'GPT-5.4', note: 'Please ensure this API Key has access to GPT-5.4 Model.' },
+                { value: 'gpt-4.1', text: 'GPT-4.1', note: 'Please ensure this API Key has access to GPT-4.1 Model.' },
+                { value: 'gpt-4', text: 'GPT-4', note: 'Please ensure this API Key has access to GPT-4 Model.' },
+                { value: 'gpt-3.5-turbo-16k', text: 'GPT-3.5' }
+            ]
+        },
+        claude: {
+            apiKeyLabel: 'Claude API Key',
+            apiKeyStorageKey: 'claudeapikey',
+            learnMoreUrl: 'https://console.anthropic.com/settings/keys',
+            useApiModels: true,
+            models: [
+                { value: 'claude-sonnet-5', text: 'Claude Sonnet 5' },
+                { value: 'claude-opus-4-8', text: 'Claude Opus 4.8' },
+                { value: 'claude-fable-5', text: 'Claude Fable 5' },
+                { value: 'claude-haiku-4-5', text: 'Claude Haiku 4.5' }
+            ]
+        },
+        groq: {
+            models: [
+                (function () {
+                    var m = (typeof groqApiModel !== 'undefined' && groqApiModel) ? groqApiModel : 'openai/gpt-oss-20b'
+                    return { value: m, text: m }
+                })()
+            ]
+        }
+    }
+
+    var providerModelCache = {}
+    var modelFetchSeq = 0
+
+    function getProviderConfig() {
+        return aiProviderConfig[aiProvider.val()] || aiProviderConfig.openai
+    }
+
+    function getApiKeyStorageKey() {
+        var providerConfig = getProviderConfig()
+        return providerConfig.apiKeyStorageKey || ''
+    }
+
+    function getDefaultMaxTokens() {
+        return aiProvider.val() == "claude" ? claude_max_tokens : oa_max_tokens
+    }
+
+    function getMaxTokens() {
+        var v = parseInt(inputMaxTokens.val(), 10)
+        return (isNaN(v) || v < 1) ? getDefaultMaxTokens() : v
+    }
+
+    function bindApiKeyStorage() {
+        inputOpenAIApiKey.off("change.apiKey")
+        if (chkSaveKey.prop("checked") && getApiKeyStorageKey()) {
+            inputOpenAIApiKey.on("change.apiKey", function () {
+                localStorage.setItem(getApiKeyStorageKey(), inputOpenAIApiKey.val());
+            })
+        }
+    }
+
+    function syncApiKeyField() {
+        var providerConfig = getProviderConfig()
+        if (!providerConfig.apiKeyStorageKey) {
+            inputOpenAIApiKey.off("change.apiKey")
+            divApiKey.hide()
+            return
+        }
+
+        apiKeyLabel.text(providerConfig.apiKeyLabel)
+        apiKeyLearnMore.attr('href', providerConfig.learnMoreUrl)
+        inputOpenAIApiKey.val(localStorage.getItem(providerConfig.apiKeyStorageKey) || "")
+        chkSaveKey.prop("checked", localStorage.getItem(providerConfig.apiKeyStorageKey) !== null)
+        bindApiKeyStorage()
+        divApiKey.show()
+    }
+
+    function getActiveModels() {
+        var cache = providerModelCache[aiProvider.val()]
+        if (cache && cache.models && cache.models.length > 0) {
+            return cache.models
+        }
+        return getProviderConfig().models
+    }
+
+    function renderModelOptions(selectedValue) {
+        var models = getActiveModels()
+        var selectedModel = null
+        models.forEach(function (model) {
+            if (model.value == selectedValue) {
+                selectedModel = model
+            }
+        })
+        if (!selectedModel) {
+            selectedModel = models[0]
+        }
+
+        gptMode.prop('disabled', false)
+        gptMode.empty()
+        models.forEach(function (model) {
+            var option = $('<option></option>').val(model.value).text(model.text)
+            if (model.note) {
+                option.attr('data-note', model.note)
+            }
+            gptMode.append(option)
+        })
+
+        oa_model = selectedModel.value
+        gptMode.val(oa_model)
+        gptMode.trigger("change")
+    }
+
+    function filterOpenAiChatModels(models) {
+        var excludedKeywords = ['embedding', 'audio', 'realtime', 'transcribe', 'tts', 'image', 'moderation', 'dall-e', 'whisper', 'davinci', 'babbage', 'instruct', 'search', 'codex', 'deep-research']
+        return models.filter(function (model) {
+            var id = (model.id || "").toLowerCase()
+            var isChatModel = id.indexOf('gpt') == 0 || id.indexOf('chatgpt') == 0 || /^o\d/.test(id)
+            if (!isChatModel) {
+                return false
+            }
+            if (/-(\d{4}-\d{2}-\d{2}|\d{3,}|latest|pro)$/.test(id)) {
+                return false
+            }
+            return !excludedKeywords.some(function (keyword) {
+                return id.indexOf(keyword) !== -1
+            })
+        }).sort(function (a, b) {
+            return (b.created || 0) - (a.created || 0)
+        }).map(function (model) {
+            return { value: model.id, text: model.id }
+        })
+    }
+
+    function fetchProviderModels(provider, apiKey, callback) {
+        if (provider == "openai") {
+            $.ajax({
+                url: "https://api.openai.com/v1/models",
+                type: "GET",
+                headers: {
+                    "Authorization": `Bearer ${apiKey}`
+                },
+                success: function (response) {
+                    callback(filterOpenAiChatModels(response['data'] || []))
+                },
+                error: function () {
+                    callback(null)
+                }
+            })
+        } else if (provider == "claude") {
+            $.ajax({
+                url: "https://api.anthropic.com/v1/models?limit=100",
+                type: "GET",
+                headers: {
+                    "x-api-key": apiKey,
+                    "anthropic-version": "2023-06-01",
+                    "anthropic-dangerous-direct-browser-access": "true"
+                },
+                success: function (response) {
+                    var models = (response['data'] || []).map(function (model) {
+                        return { value: model.id, text: model.display_name || model.id }
+                    })
+                    callback(models)
+                },
+                error: function () {
+                    callback(null)
+                }
+            })
+        } else {
+            callback(null)
+        }
+    }
+
+    function refreshProviderModels() {
+        modelFetchSeq += 1
+        var requestSeq = modelFetchSeq
+
+        var provider = aiProvider.val()
+        var providerConfig = getProviderConfig()
+        var apiKey = (inputOpenAIApiKey.val() || "").trim()
+
+        if (!providerConfig.useApiModels) {
+            providerModelCache[provider] = null
+            renderModelOptions(oa_model)
+            return
+        }
+
+        if (!apiKey) {
+            providerModelCache[provider] = null
+            oa_model = ""
+            gptMode.prop('disabled', true)
+            gptMode.empty().append($('<option></option>').val('').text('Enter API Key to load models'))
+            gptModeExtra.hide().text("")
+            return
+        }
+
+        var cache = providerModelCache[provider]
+        if (cache && cache.apiKey == apiKey) {
+            renderModelOptions(oa_model)
+            return
+        }
+
+        gptMode.prop('disabled', true)
+        gptMode.empty().append($('<option></option>').text('Loading models...'))
+        gptModeExtra.hide().text("")
+
+        fetchProviderModels(provider, apiKey, function (models) {
+            if (requestSeq != modelFetchSeq) {
+                return
+            }
+
+            if (models && models.length > 0) {
+                providerModelCache[provider] = { apiKey: apiKey, models: models }
+            } else {
+                providerModelCache[provider] = null
+            }
+            renderModelOptions()
+
+            if (!models || models.length == 0) {
+                gptModeExtra.show()
+                gptModeExtra.text('Couldn\'t load models with this API key. Showing default models, please check that the key is correct.')
+            }
+        })
+    }
+
+    function syncProviderUi() {
+        syncApiKeyField()
+        refreshProviderModels()
+        if (aiProvider.val() == "groq") {
+            divMaxTokens.hide()
+        } else {
+            inputMaxTokens.val(getDefaultMaxTokens())
+            divMaxTokens.show()
+        }
+    }
+
+    function getAiResponseText(response) {
+        if (response && response.choices) {
+            var openAiText = ""
+            Object.entries(response.choices).forEach(([key, value]) => {
+                if (value['message'] && value['message']['content']) {
+                    openAiText += value['message']['content']
+                }
+            });
+            return openAiText
+        }
+
+        if (response && response.content) {
+            var claudeText = ""
+            response.content.forEach(function (item) {
+                if (item.type === "text" && item.text) {
+                    claudeText += item.text
+                }
+            })
+            return claudeText
+        }
+
+        return ""
+    }
+
+    function getAiErrorMessage(response) {
+        if (response && response.error) {
+            if (response.error.message) return response.error.message
+            if (response.error.code) return response.error.code
+        }
+
+        return "Failed"
+    }
+
+    function getStopReasonAlert(response) {
+        if (!response) return { alertHtml: "", save: true }
+
+        var msg = ""
+        var save = false   // abnormal stops default to not saved
+
+        // ================= Claude : stop_reason =================
+        if (response['stop_reason'] !== undefined) {
+            var stopReason = response['stop_reason']
+
+            switch (stopReason) {
+                case 'end_turn':
+                case 'stop_sequence':
+                    return { alertHtml: "", save: true }   // completed normally
+                case 'max_tokens':
+                    msg = 'The answer was cut off at the Max Tokens limit. Increase Max Tokens and try again.'
+                    save = true   // truncated answer is still saved to history
+                    break
+                case 'refusal':
+                    msg = 'The AI declined to answer this request. Please rephrase your question.'
+                    break
+                case 'model_context_window_exceeded':
+                    msg = 'The selected source code is too large for this model. Please select fewer files.'
+                    break
+                default:
+                    msg = 'The AI stopped before completing the answer (stop_reason: ' + stopReason + ').'
+            }
+
+            return { alertHtml: code_reader.renderAlertBox('warning', msg), save: save }
+        }
+
+        // ================= OpenAI : choices[0].finish_reason =================
+        if (response['choices'] && response['choices'][0]) {
+            var finishReason = response['choices'][0]['finish_reason']
+
+            switch (finishReason) {
+                case null:
+                case undefined:
+                case 'stop':
+                    return { alertHtml: "", save: true }   // completed normally
+                case 'length':
+                    msg = 'The answer was cut off at the Max Tokens limit. Increase Max Tokens and try again.'
+                    save = true   // truncated answer is still saved to history
+                    break
+                case 'content_filter':
+                    msg = 'Part of the answer was withheld by the content filter.'
+                    break
+                default:
+                    msg = 'The AI stopped before completing the answer (finish_reason: ' + finishReason + ').'
+            }
+
+            return { alertHtml: code_reader.renderAlertBox('warning', msg), save: save }
+        }
+
+        return { alertHtml: "", save: true }
+    }
+
+    var code_reader = {
+        source: {},
+        oaId: "",
+        thumbstatus: "",
+        contractAddress: litCodeReaderContractAddress,
+        renderPrompt: function (el) {
+            txtPrompt.val($(el).html())
+        },
+        callOpenAiApi: function (el) {
+            var $button = $(el)
+            $button.prop('disabled', true);
+            $button.html('<i class="fa fa-spin fa-spinner"></i>');
+
+            divAnswer.html('&nbsp;')
+
+            var self = this
+            self.prompt = txtPrompt.val()
+
+            var selectedCode = ""
+            selectedCode = JSON.stringify(self.source);
+
+            var requestData = {
+                model: oa_model,
+                max_completion_tokens: getMaxTokens(),
+                messages: [{
+                    role: "system",
+                    content: oa_rolesystemcontent
+                }, {
+                    role: "user",
+                    content: (selectedCode || "") + "\n\n" + self.prompt
+                }]
+            };
+
+            if (self.prompt) {
+
+                if (aiProvider.val() != "groq" && !oa_model) {
+                    divPormtAnswer.show()
+                    divAnswer.html(self.renderAlertBox('danger', 'Please enter your API Key and select a model.'))
+                    $button.prop('disabled', false)
+                    $button.html('<i class="fa fa-paper-plane-top"></i>');
+                    return
+                }
+
+                divPormt.html(htmlEnc(self.prompt))
+
+                if (aiProvider.val() == "groq") {
+                    $.ajax({
+                        type: "POST",
+                        url: "/code-readerHandler.ashx",
+                        dataType: 'json',
+                        data: {
+                            ssid: sid,
+                            action: "callPromptAnswer",
+                            data: requestData
+                        },
+                        success: function (response) {
+                            if (typeof response !== 'object') {
+                                response = JSON.parse(response)
+                            }
+                            if (response['error']) {
+                                self.oaId = ""
+                                self.thumbstatus = ""
+
+                                var html = ""
+                                if (response['error']['message']) {
+                                    if (response['error']['message'] == "The model: `gpt-4` does not exist") {
+                                        html = self.renderAlertBox('danger', "The provided API key does not have access to GPT-4. Please change to a different key or use GPT-3.5.")
+                                    } else {
+                                        html = self.renderAlertBox('danger', response['error']['message'])
+                                    }
+                                } else {
+                                    html = self.renderAlertBox('danger', response['error']['code'])
+                                }
+
+                                divGeneratedOpenAI.hide()
+                                divAnswer.html(html)
+
+                                self.storePromptAndAnswer(response, "2")
+                            } else {
+                                self.oaId = response['id']
+                                self.thumbstatus = ""
+
+                                var html = ""
+                                var choices = response['choices']
+                                Object.entries(choices).forEach(([key, value]) => {
+                                    html += value['message']['content']
+                                });
+                                html = htmlEnc(html).replace(/\n/g, '<br/>')
+
+                                divGeneratedOpenAI.show()
+                                html += self.renderAnswerThumbsAction()
+                                divAnswer.html(html)
+
+                                self.storePromptAndAnswer(response, "1")
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            self.oaId = ""
+                            self.thumbstatus = ""
+
+                            var html = ""
+                            if (xhr['responseJSON'] && xhr['responseJSON']['error'] && xhr['responseJSON']['error']['message']) {
+                                if (xhr['responseJSON']['error']['message'] == "The model: `gpt-4` does not exist") {
+                                    html = self.renderAlertBox('danger', "The provided API key does not have access to GPT-4. Please change to a different key or use GPT-3.5.")
+                                } else {
+                                    html = self.renderAlertBox('danger', xhr['responseJSON']['error']['message'])
+                                }
+                                self.storePromptAndAnswer(xhr['responseJSON'], "2")
+                            } else if (xhr['responseJSON'] && xhr['responseJSON']['error'] && xhr['responseJSON']['error']['code']) {
+                                html = self.renderAlertBox('danger', xhr['responseJSON']['error']['code'])
+                                self.storePromptAndAnswer(xhr['responseJSON'], "2")
+                            } else {
+                                html = self.renderAlertBox('danger', "Failed")
+                            }
+
+                            divGeneratedOpenAI.hide()
+                            divAnswer.html(html)
+
+                        },
+                        complete: function () {
+                            $button.prop('disabled', false)
+                            $button.html('<i class="fa fa-paper-plane-top"></i>');
+                            txtPrompt.val('')
+                            divPormtAnswer.show()
+                        }
+                    });
+                } else if (aiProvider.val() == "claude") {
+                    var claudeApiKey = inputOpenAIApiKey.val()
+
+                    if (claudeApiKey) {
+                        var claudeRequestData = {
+                            model: oa_model,
+                            max_tokens: getMaxTokens(),
+                            system: oa_rolesystemcontent,
+                            messages: [{
+                                role: "user",
+                                content: (selectedCode || "") + "\n\n" + self.prompt
+                            }]
+                        }
+
+                        $.ajax({
+                            url: "https://api.anthropic.com/v1/messages",
+                            type: "POST",
+                            contentType: "application/json",
+                            dataType: "json",
+                            headers: {
+                                "x-api-key": claudeApiKey,
+                                "anthropic-version": "2023-06-01",
+                                "anthropic-dangerous-direct-browser-access": "true"
+                            },
+                            data: JSON.stringify(claudeRequestData),
+                            success: function (response) {
+                                self.oaId = response['id']
+                                self.thumbstatus = ""
+
+                                var html = getAiResponseText(response)
+                                html = htmlEnc(html).replace(/\n/g, '<br/>')
+
+                                var stopAlert = getStopReasonAlert(response)
+                                html += stopAlert.alertHtml
+
+                                divGeneratedOpenAI.show()
+                                html += self.renderAnswerThumbsAction()
+                                divAnswer.html(html)
+
+                                if (stopAlert.save) {
+                                    self.storePromptAndAnswer(response, "1")
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                self.oaId = ""
+                                self.thumbstatus = ""
+
+                                var response = xhr['responseJSON'] || {}
+                                if (!response.error && xhr['responseText']) {
+                                    try {
+                                        response = JSON.parse(xhr['responseText'])
+                                    } catch (e) {
+                                        response = {
+                                            error: {
+                                                message: xhr['responseText']
+                                            }
+                                        }
+                                    }
+                                }
+                                if (!response.error) {
+                                    response = {
+                                        error: {
+                                            message: error || status || "Failed"
+                                        }
+                                    }
+                                }
+                                var html = self.renderAlertBox('danger', getAiErrorMessage(response))
+
+                                divGeneratedOpenAI.hide()
+                                divAnswer.html(html)
+
+                                self.storePromptAndAnswer(response, "2")
+                            },
+                            complete: function () {
+                                $button.prop('disabled', false)
+                                $button.html('<i class="fa fa-paper-plane-top"></i>');
+                                txtPrompt.val('')
+                                divPormtAnswer.show()
+                            }
+                        });
+                    } else {
+                        divPormtAnswer.show()
+                        divAnswer.html(self.renderAlertBox('danger', 'Please enter a Claude API Key.'))
+                        $button.prop('disabled', false)
+                        $button.html('<i class="fa fa-paper-plane-top"></i>');
+                    }
+                } else {
+                    var openAIApikey = inputOpenAIApiKey.val()
+
+                    if (openAIApikey) {
+
+                        $.ajax({
+                            url: "https://api.openai.com/v1/chat/completions",
+                            type: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": `Bearer ${openAIApikey}`
+                            },
+                            data: JSON.stringify(requestData),
+                            success: function (response) {
+                                self.oaId = response['id']
+                                self.thumbstatus = ""
+
+                                var html = ""
+                                var choices = response['choices']
+                                Object.entries(choices).forEach(([key, value]) => {
+                                    html += value['message']['content']
+                                });
+                                html = htmlEnc(html).replace(/\n/g, '<br/>')
+
+                                var stopAlert = getStopReasonAlert(response)
+                                html += stopAlert.alertHtml
+
+                                divGeneratedOpenAI.show()
+                                html += self.renderAnswerThumbsAction()
+                                divAnswer.html(html)
+
+                                if (stopAlert.save) {
+                                    self.storePromptAndAnswer(response, "1")
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                self.oaId = ""
+                                self.thumbstatus = ""
+
+                                var html = ""
+                                if (xhr['responseJSON'] && xhr['responseJSON']['error'] && xhr['responseJSON']['error']['message']) {
+                                    if (xhr['responseJSON']['error']['message'] == "The model: `gpt-4` does not exist") {
+                                        html = self.renderAlertBox('danger', "The provided API key does not have access to GPT-4. Please change to a different key or use GPT-3.5.")
+                                    } else {
+                                        html = self.renderAlertBox('danger', xhr['responseJSON']['error']['message'])
+                                    }
+                                    self.storePromptAndAnswer(xhr['responseJSON'], "2")
+                                } else if (xhr['responseJSON'] && xhr['responseJSON']['error'] && xhr['responseJSON']['error']['code']) {
+                                    html = self.renderAlertBox('danger', xhr['responseJSON']['error']['code'])
+                                    self.storePromptAndAnswer(xhr['responseJSON'], "2")
+                                } else {
+                                    html = self.renderAlertBox('danger', "Failed")
+                                }
+
+                                divGeneratedOpenAI.hide()
+                                divAnswer.html(html)
+
+                            },
+                            complete: function () {
+                                $button.prop('disabled', false)
+                                $button.html('<i class="fa fa-paper-plane-top"></i>');
+                                txtPrompt.val('')
+                                divPormtAnswer.show()
+                            }
+                        });
+                    } else {
+                        divPormtAnswer.show()
+                        if (!openAIApikey) {
+                            divAnswer.html(self.renderAlertBox('danger', 'Please enter an OpenAI API Key.'))
+
+                        } else if (!self.prompt) {
+                            divAnswer.html(self.renderAlertBox('danger', 'Please enter a prompt.'))
+                        }
+                        $button.prop('disabled', false)
+                        $button.html('<i class="fa fa-paper-plane-top"></i>');
+                    }
+                }
+            } else {
+                divPormtAnswer.show()
+                if (!self.prompt) {
+                    divAnswer.html(self.renderAlertBox('danger', 'Please enter a prompt.'))
+                }
+                $button.prop('disabled', false)
+                $button.html('<i class="fa fa-paper-plane-top"></i>');
+            }
+        },
+        getCodeReaderPromptHistory(e) {
+            if (isSevice != "1") {
+                divModal.html('<span>To use this feature, please <a href="/login">login</a> to your Etherscan account and return to this page</span>')
+                modalSavedHistory.show()
+            } else {
+                btnSavedHistory.prop('disabled', true);
+                btnSavedHistory.html('<i class="fa fa-spin fa-spinner"></i>');
+
+                if (isSevice == "1" && gotNew) {
+                    divModal.html("")
+                    responseSavedHistory = []
+                    var self = this
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/code-readerHandler.ashx",
+                        dataType: 'json',
+                        data: {
+                            ssid: sid,
+                            contractAddress: self.contractAddress,
+                            action: "getCodeReaderPromptHistory",
+                        },
+                        success: function (response) {
+                            if (response == "error") {
+                                var html = code_reader.renderAlertBox('danger', 'Fail to get history')
+                                divModal.html(html)
+                            } else {
+                                if (response.length == 0) {
+                                    divModal.html("No record found.")
+                                } else {
+                                    responseSavedHistory = response
+                                    var html = ""
+                                    for (let i = 0; i < responseSavedHistory.length; i++) {
+                                        var hitem = responseSavedHistory[i]
+                                        html += '<button class="list-group-item list-group-item-action d-flex align-items-center gap-2 p-3" onclick="code_reader.renderHistory(this, ' + i + ')">'
+
+                                        html += '<div class="container row">'
+                                        html += '<div class="text-truncate">' + htmlEnc(hitem['prompt']) + '</div>'
+                                        html += '<span>' + getTruncatedAddress(htmlEnc(hitem['contractAddress'])) + ' <span class="small text-muted">(' + htmlEnc(hitem['dt']) + ')</span></span>'
+                                        html += '</div>'
+
+                                        html += '<i class="far fa-angle-right mx-1"></i>'
+
+                                        html += '</button>'
+                                    }
+                                    divModal.html(html)
+                                }
+                                gotNew = false
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            var html = code_reader.renderAlertBox('danger', 'Fail to get history')
+                            divModal.html(html)
+                        },
+                        complete: function () {
+                            modalSavedHistory.show()
+                            btnSavedHistory.prop('disabled', false)
+                            btnSavedHistory.html('<i class="far fa-book-open"></i>');
+                        }
+                    });
+                } else {
+                    modalSavedHistory.show()
+                    btnSavedHistory.prop('disabled', false)
+                    btnSavedHistory.html('<i class="far fa-book-open"></i>');
+                }
+            }
+        },
+        renderAlertBox: function (type, msg) {
+            return `<div class="alert alert-${type} text-break alert-dismissible fade show mt-2" role="alert">
+                        <div class="d-flex align-items-baseline gap-2">
+                            ${htmlEnc(msg)}
+                        </div>
+                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>`
+        },
+        renderAnswerThumbsAction: function (feedback) {
+            if ((isSevice == "1" && chkSaveHistory.prop("checked") == true) || feedback != null) {
+                return `<div class="d-flex align-items-center gap-1 mt-4">
+                             <button type="button" class="btn btn-sm ${feedback == '1' ? 'btn-primary' : 'btn-white'}" id="btnThumbUp" data-bs-toggle="modal" data-bs-target="#shareFeedback" onclick="code_reader.setAnswerThumbAction(this, '1')">
+                                 <i class="far fa-thumbs-up"></i>
+                             </button>
+                             <button type="button" class="btn btn-sm ${feedback == '2' ? 'btn-primary' : 'btn-white'}" id="btnThumbDown" data-bs-toggle="modal" data-bs-target="#shareFeedback" onclick="code_reader.setAnswerThumbAction(this, '2')">
+                                 <i class="far fa-thumbs-down"></i>
+                             </button>
+                         </div>`
+            } else {
+                return ""
+            }
+        },
+        setAnswerThumbAction: function (el, status) {
+            if (isSevice == "1") {
+                var $buttonUp = $("#btnThumbUp")
+                var $buttonDown = $("#btnThumbDown")
+
+                $buttonUp.prop('disabled', true);
+                $buttonDown.prop('disabled', true);
+                $buttonUp.attr('class', 'btn btn-sm btn-white')
+                $buttonDown.attr('class', 'btn btn-sm btn-white')
+
+                var self = this
+                if (self.thumbstatus == status) {
+                    self.thumbstatus = "0"
+                } else {
+                    self.thumbstatus = status
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/code-readerHandler.ashx",
+                    data: {
+                        ssid: sid,
+                        oaId: self.oaId,
+                        status: self.thumbstatus,
+                        action: "storeThumb",
+                    },
+                    complete: function () {
+                        if (self.thumbstatus == "1") {
+                            $buttonUp.attr('class', 'btn btn-sm btn-primary')
+                        } else if (self.thumbstatus == "2") {
+                            $buttonDown.attr('class', 'btn btn-sm btn-primary')
+                        } else if (self.thumbstatus == "0") {
+                            $buttonUp.attr('class', 'btn btn-sm btn-white')
+                            $buttonDown.attr('class', 'btn btn-sm btn-white')
+                        }
+
+                        gotNew = true
+
+                        $buttonUp.prop('disabled', false)
+                        $buttonDown.prop('disabled', false)
+                    }
+                })
+            }
+        },
+        storFeedbackAction: function (el) {
+            if (isSevice == "1") {
+                var self = this
+
+                $.ajax({
+                    type: "POST",
+                    url: "/code-readerHandler.ashx",
+                    data: {
+                        ssid: sid,
+                        oaId: self.oaId,
+                        txtFeedback: txtFeedback.val(),
+                        action: "storeFeedback",
+                    },
+                    complete: function () {
+                        $('#shareFeedback').modal('toggle')
+                        $('#shareFeedbackComplete').modal('toggle')
+                        txtFeedback.val("")
+                    }
+                })
+            }
+        },
+        storePromptAndAnswer: function (result, status) {
+            if (isSevice == "1" && chkSaveHistory.prop("checked") == true) {
+                var self = this
+
+                $.ajax({
+                    type: "POST",
+                    url: "/code-readerHandler.ashx",
+                    data: {
+                        ssid: sid,
+                        prompt: divPormt.html(),
+                        oaId: self.oaId,
+                        contractAddress: self.contractAddress,
+                        selectedFiles: JSON.stringify(self.source),
+                        model: oa_model,
+                        setting: JSON.stringify({
+                            provider: aiProvider.val(),
+                            systemrole: oa_rolesystemcontent,
+                        }),
+                        result: JSON.stringify(result),
+                        status: status,
+                        action: "storePrompt",
+                    },
+                    complete: function () {
+                        gotNew = true
+                    }
+                })
+            }
+        },
+        renderHistory(el, index) {
+            var hitem = responseSavedHistory[index]
+            var self = this
+
+            if (hitem['oaId']) {
+                self.oaId = hitem['oaId']
+            } else {
+                self.oaId = ""
+            }
+
+            divPormt.html(htmlEnc(hitem['prompt']))
+
+            var hitem_result = JSON.parse(hitem['result'])
+            if (hitem['status'] == '2') {
+                var html = ""
+                if (hitem_result['error']['message']) {
+                    if (hitem_result['error']['message'] == "The model: `gpt-4` does not exist") {
+                        html = self.renderAlertBox('danger', "The provided API key does not have access to GPT-4. Please change to a different key or use GPT-3.5.")
+                    } else {
+                        html = self.renderAlertBox('danger', hitem_result['error']['message'])
+                    }
+                } else {
+                    html = self.renderAlertBox('danger', hitem_result['error']['code'])
+                }
+
+                divGeneratedOpenAI.hide()
+                divAnswer.html(html)
+            } else if (hitem['status'] == '1' && hitem['oaId']) {
+                var html = getAiResponseText(hitem_result)
+                html = htmlEnc(html).replace(/\n/g, '<br/>')
+                html += getStopReasonAlert(hitem_result).alertHtml
+
+                self.thumbstatus = htmlEnc(hitem['feedback'])
+                html += self.renderAnswerThumbsAction(htmlEnc(hitem['feedback']))
+
+                divAnswer.html(html)
+                divGeneratedOpenAI.show()
+            } else {
+                divAnswer.html("")
+            }
+            divPormtAnswer.show()
+
+            if (hitem['contractAddress']) {
+                self.source = JSON.parse(hitem['selectedFiles'])
+                var allCheckboxes = document.querySelectorAll('input[name="chkContractFile"]');
+                for (const checkbox of allCheckboxes) {
+                    checkbox.checked = false;
+                }
+
+                for (const sourceName in code_reader.source) {
+                    const checkbox = document.querySelector(`input[name="chkContractFile"][data-cname="${sourceName}"]`);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    } else {
+                    }
+                }
+            }
+
+            modalSavedHistory.hide()
+        },
+    }
+
+    if (isLogin == "1") {
+        $("#aiProvider_opt_groq").prop("disabled", false)
+        aiProvider.val("groq")
+    } else {
+        $("#aiProvider_opt_groq").prop("title", "To use this feature, please login to your Etherscan account and return to this page")
+    }
+    if (isSevice != "3") {
+        $('#divHistory').show()
+    }
+
+    if (isSevice == "1") {
+        chkSaveHistory.change(function () {
+            if ($(this).is(":checked")) {
+                localStorage.setItem("codereader_history", "1");
+            } else {
+                localStorage.removeItem("codereader_history");
+            }
+        });
+        if (localStorage.getItem("codereader_history") !== null) {
+            if (localStorage.getItem("codereader_history") == "1") {
+                chkSaveHistory.prop("checked", true)
+            }
+        }
+        chkSaveHistory.prop("disabled", false)
+        btnSavedHistory.show()
+    } else {
+        var divSaveHistory = document.getElementById('divSaveHistory')
+        var tooltip = new bootstrap.Popover(divSaveHistory, {
+            content: 'To use this feature, please login to your Etherscan account and return to this page',
+            trigger: "hover"
+        })
+    }
+
+    aiProvider.change(function () {
+        syncProviderUi()
+    })
+
+    gptMode.change(function () {
+        oa_model = $(this).val()
+        var note = $(this).find(':selected').data('note') || ""
+        if (note) {
+            gptModeExtra.show()
+            gptModeExtra.text(note)
+        } else {
+            gptModeExtra.hide()
+            gptModeExtra.text("")
+        }
+    })
+
+    var modelRefreshTimer = null
+    inputOpenAIApiKey.on("input.models change.models", function () {
+        clearTimeout(modelRefreshTimer)
+        modelRefreshTimer = setTimeout(refreshProviderModels, 600)
+    })
+
+    chkSaveKey.change(function () {
+        var storageKey = getApiKeyStorageKey()
+        if (!storageKey) {
+            return
+        }
+
+        if ($(this).is(":checked")) {
+            localStorage.setItem(storageKey, inputOpenAIApiKey.val());
+        } else {
+            localStorage.removeItem(storageKey);
+        }
+        bindApiKeyStorage()
+    });
+
+    syncProviderUi()
+
+    for (const checkbox of checkboxes) {
+        const cname = checkbox.getAttribute('data-cname');
+        const csource = checkbox.getAttribute('data-csource');
+
+        if (checkbox.checked) {
+            code_reader.source[cname] = {
+                cname: csource,
+            };
+        }
+
+        checkbox.addEventListener('change', function () {
+            const cname = this.getAttribute('data-cname');
+            const csource = this.getAttribute('data-csource');
+            const checkboxId = this.id;
+
+            if (this.checked) {
+                code_reader.source[cname] = {
+                    cname: csource,
+                };
+            } else {
+                delete code_reader.source[cname];
+            }
+        });
+    }
+}

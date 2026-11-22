@@ -1,0 +1,201 @@
+{
+  "chain_id": 1,
+  "token": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+  "a_token": "0xA700b4eB416Be35b2911fd5Dee80678ff64fF6C9",
+  "abi": [
+    {
+      "name": "totalSupply",
+      "type": "function",
+      "stateMutability": "view",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint256"
+        }
+      ]
+    },
+    {
+      "name": "decimals",
+      "type": "function",
+      "stateMutability": "view",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "uint8"
+        }
+      ]
+    },
+    {
+      "name": "balanceOf",
+      "type": "function",
+      "stateMutability": "view",
+      "inputs": [
+        {
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "uint256"
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "requested_date_utc": "2025-11-23T00:00:00+00:00",
+      "block_number": 23857896,
+      "block_hash": "f0dec6957622825aca0a4c1d62ba47f4f75cadffb8686c2d1341f40e98736352",
+      "block_timestamp": 1763855999,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "1123548742610556139741820",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 1123548.742610556
+    },
+    {
+      "requested_date_utc": "2025-12-01T00:00:00+00:00",
+      "block_number": 23914920,
+      "block_hash": "af13a41f749ec6a671ac819f78f3b9057e2b3efe6a9265ae674a1c32623d6350",
+      "block_timestamp": 1764547199,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "1178435513784921260528896",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 1178435.5137849213
+    },
+    {
+      "requested_date_utc": "2026-01-01T00:00:00+00:00",
+      "block_number": 24136052,
+      "block_hash": "a08a367ae7bf2f0d018a5001dcf3084e36aa7ce78957ca3b6a4eedc8e59a2474",
+      "block_timestamp": 1767225599,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "1203706946113714037850445",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 1203706.946113714
+    },
+    {
+      "requested_date_utc": "2026-02-01T00:00:00+00:00",
+      "block_number": 24358292,
+      "block_hash": "bbc3b78765e7ea75b2e4e5ccf5dcf130cc03d28786403394e5ce1ee684bdeae1",
+      "block_timestamp": 1769903999,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "1209393758742935693707879",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 1209393.7587429357
+    },
+    {
+      "requested_date_utc": "2026-03-01T00:00:00+00:00",
+      "block_number": 24558867,
+      "block_hash": "c63e7c601183455f7f489397331ba13ab131538366c75ff892ae5d413d57ad38",
+      "block_timestamp": 1772323199,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "955777403639911580270420",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 955777.4036399116
+    },
+    {
+      "requested_date_utc": "2026-04-01T00:00:00+00:00",
+      "block_number": 24781026,
+      "block_hash": "a66185ac20df0d3bb59ad13ef3b0bd3a4eca5b5058504794a554cb74abf529bd",
+      "block_timestamp": 1775001599,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "799866712801241159188872",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 799866.7128012412
+    },
+    {
+      "requested_date_utc": "2026-05-01T00:00:00+00:00",
+      "block_number": 24996367,
+      "block_hash": "028da7277ea75dda67b6cf9cafab127ba9eb146dd8813958f95deb4b56bd3965",
+      "block_timestamp": 1777593599,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "635893253493277198109717",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 635893.2534932772
+    },
+    {
+      "requested_date_utc": "2026-06-01T00:00:00+00:00",
+      "block_number": 25218797,
+      "block_hash": "f8764ee0fc709f47e9db4f264b47d0047cb16096ebf950585cbe74e9af80a0c4",
+      "block_timestamp": 1780271999,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "836250855180702799591469",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 836250.8551807028
+    },
+    {
+      "requested_date_utc": "2026-07-01T00:00:00+00:00",
+      "block_number": 25433938,
+      "block_hash": "82ba65044cd2af79c7e3e21dd4a87a26d257e6f9abcf585eed201f2d177f35a0",
+      "block_timestamp": 1782863999,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "798061058565582186018234",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 798061.0585655821
+    },
+    {
+      "requested_date_utc": "2026-08-01T00:00:00+00:00",
+      "block_number": 25656292,
+      "block_hash": "0485b1eb7ba44d0e9cc31f1ac5e203b86e6525feb0c36283bef329e903bbf507",
+      "block_timestamp": 1785542399,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "815754063468146984296049",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 815754.063468147
+    },
+    {
+      "requested_date_utc": "2026-09-01T00:00:00+00:00",
+      "block_number": 25878704,
+      "block_hash": "1d63bf12e101c849b9e8bceca81a71d801735fca65ff9f1f12284e9d77c20547",
+      "block_timestamp": 1788220799,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "817665136659960719650528",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 817665.1366599607
+    },
+    {
+      "requested_date_utc": "2026-10-01T00:00:00+00:00",
+      "block_number": 26093737,
+      "block_hash": "cd26204e996dceb606ccf0bc6f5bf8ea6747a471df8be73b5855f01624d5d743",
+      "block_timestamp": 1790812799,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "833020677432091008844425",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 833020.677432091
+    },
+    {
+      "requested_date_utc": "2026-11-01T00:00:00+00:00",
+      "block_number": 26316188,
+      "block_hash": "1c470b61d79d7666dc9bbaebccf4a83b2be0d01a9c348c83373886e5a170f48d",
+      "block_timestamp": 1793491199,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "823798972515796068147093",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 823798.9725157961
+    },
+    {
+      "requested_date_utc": "2026-11-21T00:00:00+00:00",
+      "block_number": 26459749,
+      "block_hash": "04bae0e3e012a465f079b09c8818a9b8e79a432c6fb5d88e0fa993b3754fbe24",
+      "block_timestamp": 1795219199,
+      "total_supply_raw": "16000000000000000000000000",
+      "aave_cash_raw": "774556316848071368550386",
+      "decimals": 18,
+      "total_supply_aave": 16000000.0,
+      "aave_v3_cash_aave": 774556.3168480714
+    }
+  ]
+}

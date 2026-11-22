@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "aave_eda": {
+      "command": "C:/ABSOLUTE/PATH/TO/HW5/.venv/Scripts/python.exe",
+      "args": ["C:/ABSOLUTE/PATH/TO/HW5/mcp_server.py"]
+    }
+  }
+}

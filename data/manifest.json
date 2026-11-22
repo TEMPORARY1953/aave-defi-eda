@@ -1,0 +1,306 @@
+[
+  {
+    "file": "data\\raw\\defillama_aave.json",
+    "url": "https://api.llama.fi/protocol/aave",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:27.076367+00:00",
+    "http_status": 200,
+    "sha256": "03c16b22bb45a6594a23f036e874a5b3d71eb67be1f0a9e38d1b4fc78e7d3fac"
+  },
+  {
+    "file": "data\\raw\\defillama_compound-finance.json",
+    "url": "https://api.llama.fi/protocol/compound-finance",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:27.292423+00:00",
+    "http_status": 200,
+    "sha256": "f5c320dee7bb86759acddd79f8f386ab7aebc2ef04a9331040e2f31ccda2d52a"
+  },
+  {
+    "file": "data\\raw\\defillama_morpho.json",
+    "url": "https://api.llama.fi/protocol/morpho",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:27.620605+00:00",
+    "http_status": 200,
+    "sha256": "d6533a1b562f500b459340186a00d68d9f59ce6e2dbdf5abc2c5b5ccb3c835a9"
+  },
+  {
+    "file": "data\\raw\\defillama_protocols.json",
+    "url": "https://api.llama.fi/protocols",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:27.909261+00:00",
+    "http_status": 200,
+    "sha256": "8a7d4a0aa625f06b6a8354dd9bb834452727a294371e68ed4fef52d6fb54f054"
+  },
+  {
+    "file": "data\\raw\\coingecko_aave.json",
+    "url": "https://api.coingecko.com/api/v3/coins/aave/market_chart",
+    "params": {
+      "vs_currency": "usd",
+      "days": 365,
+      "interval": "daily"
+    },
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:28.529051+00:00",
+    "http_status": 200,
+    "sha256": "a30fe8730d84a8edcd8a8c3b3cb9045210154f0644d09a21d112ead258d2ccba"
+  },
+  {
+    "file": "data\\raw\\etherscan_token.html",
+    "url": "https://etherscan.io/token/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:29.913444+00:00",
+    "http_status": 200,
+    "sha256": "db3c17e0dfaf01df952768eb470f8551c56c201cd77f9a3edae85ab8fd652310"
+  },
+  {
+    "file": "data\\raw\\etherscan_transactions.html",
+    "url": "https://etherscan.io/address/0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:30.492262+00:00",
+    "http_status": 200,
+    "sha256": "1bcfdfef560ecdd9039962f55b246142e7109d5675fe5730691b01160849f9c1"
+  },
+  {
+    "file": "data\\raw\\etherscan_api_status.json",
+    "url": "https://api.etherscan.io/v2/api",
+    "params": {
+      "chainid": 1,
+      "module": "stats",
+      "action": "tokensupply",
+      "contractaddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9"
+    },
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:31.499898+00:00",
+    "http_status": 200,
+    "sha256": "15a829feaac786f421a396f1e60977a508a6e29434bd7b62a75a743710cdb150"
+  },
+  {
+    "file": "data\\raw\\graph_reserves.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{ _meta { block { number timestamp } hasIndexingErrors } reserves(first:100) { id symbol decimals } }"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:32.519287+00:00",
+    "http_status": 200,
+    "sha256": "56423e7e6a672b2472ccea1500f39111e59aa1e32927d6f539c6ed0f50763119"
+  },
+  {
+    "file": "data\\raw\\graph_history_0.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{d0: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1763856000,timestamp_lt:1764460800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd1: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1764460800,timestamp_lt:1765065600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd2: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1765065600,timestamp_lt:1765670400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd3: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1765670400,timestamp_lt:1766275200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd4: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1766275200,timestamp_lt:1766880000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd5: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1766880000,timestamp_lt:1767484800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd6: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1767484800,timestamp_lt:1768089600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd7: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1768089600,timestamp_lt:1768694400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd8: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1768694400,timestamp_lt:1769299200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd9: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1769299200,timestamp_lt:1769904000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }}"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:32.876806+00:00",
+    "http_status": 200,
+    "sha256": "ea3da1efe2328094e68a53b3538c0a997492d21f1a604a199deba1fd922f0ace"
+  },
+  {
+    "file": "data\\raw\\graph_history_1.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{d0: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1769904000,timestamp_lt:1770508800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd1: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1770508800,timestamp_lt:1771113600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd2: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1771113600,timestamp_lt:1771718400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd3: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1771718400,timestamp_lt:1772323200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd4: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1772323200,timestamp_lt:1772928000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd5: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1772928000,timestamp_lt:1773532800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd6: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1773532800,timestamp_lt:1774137600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd7: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1774137600,timestamp_lt:1774742400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd8: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1774742400,timestamp_lt:1775347200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd9: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1775347200,timestamp_lt:1775952000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }}"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:33.144917+00:00",
+    "http_status": 200,
+    "sha256": "759b3d71f5a4a6b81bc03d123c13cb81c43a7b615143af0ae5234fb59caa02cd"
+  },
+  {
+    "file": "data\\raw\\graph_history_2.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{d0: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1775952000,timestamp_lt:1776556800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd1: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1776556800,timestamp_lt:1777161600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd2: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1777161600,timestamp_lt:1777766400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd3: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1777766400,timestamp_lt:1778371200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd4: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1778371200,timestamp_lt:1778976000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd5: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1778976000,timestamp_lt:1779580800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd6: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1779580800,timestamp_lt:1780185600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd7: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1780185600,timestamp_lt:1780790400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd8: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1780790400,timestamp_lt:1781395200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd9: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1781395200,timestamp_lt:1782000000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }}"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:33.429769+00:00",
+    "http_status": 200,
+    "sha256": "4ca2fd2cb14895352ea68535a1a9bc19c23ae91a15a70e5c0c79b83e5906b9e3"
+  },
+  {
+    "file": "data\\raw\\graph_history_3.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{d0: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1782000000,timestamp_lt:1782604800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd1: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1782604800,timestamp_lt:1783209600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd2: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1783209600,timestamp_lt:1783814400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd3: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1783814400,timestamp_lt:1784419200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd4: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1784419200,timestamp_lt:1785024000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd5: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1785024000,timestamp_lt:1785628800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd6: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1785628800,timestamp_lt:1786233600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd7: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1786233600,timestamp_lt:1786838400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd8: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1786838400,timestamp_lt:1787443200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd9: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1787443200,timestamp_lt:1788048000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }}"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:33.695759+00:00",
+    "http_status": 200,
+    "sha256": "4596e0eb0725324d8142c9c59792ae7a1326c87d52d1919c85ae9c939c47e62f"
+  },
+  {
+    "file": "data\\raw\\graph_history_4.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{d0: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1788048000,timestamp_lt:1788652800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd1: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1788652800,timestamp_lt:1789257600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd2: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1789257600,timestamp_lt:1789862400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd3: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1789862400,timestamp_lt:1790467200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd4: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1790467200,timestamp_lt:1791072000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd5: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1791072000,timestamp_lt:1791676800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd6: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1791676800,timestamp_lt:1792281600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd7: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1792281600,timestamp_lt:1792886400}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd8: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1792886400,timestamp_lt:1793491200}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd9: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1793491200,timestamp_lt:1794096000}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }}"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:33.946395+00:00",
+    "http_status": 200,
+    "sha256": "619a40c1a05b614eb0525e3e12666ae6a46efb7b4b594025e1459a5c971777f5"
+  },
+  {
+    "file": "data\\raw\\graph_history_5.json",
+    "url": "https://metisapi.0xgraph.xyz/subgraphs/name/aave/protocol-v3-metis",
+    "params": {},
+    "query": {
+      "query": "{d0: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1794096000,timestamp_lt:1794700800}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }\nd1: reserveParamsHistoryItems(first:1, orderBy:timestamp, orderDirection:asc, where:{reserve:\"0xea32a96608495e54156ae48931a7c20f0dcc1a210xb9fabd7500b2c6781c35dd48d54f81fc2299d7af\",timestamp_gte:1794700800,timestamp_lt:1795305600}) { id timestamp liquidityRate variableBorrowRate availableLiquidity }}"
+    },
+    "retrieved_at_utc": "2026-11-22T11:18:34.085863+00:00",
+    "http_status": 200,
+    "sha256": "ee81c4678ca7fdc5032fc67494a9d8cf4aa4783aeb0497b952cbdc4af9765a6f"
+  },
+  {
+    "file": "data\\raw\\AaveV3Ethereum.sol",
+    "url": "https://raw.githubusercontent.com/bgd-labs/aave-address-book/main/src/AaveV3Ethereum.sol",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:34.482427+00:00",
+    "http_status": 200,
+    "sha256": "d41d075f1d3ff7a9cf75ad3076c21cdb8ed63115831b743462eea33140c237ab"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1763856000.json",
+    "url": "https://coins.llama.fi/block/ethereum/1763856000",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:35.736235+00:00",
+    "http_status": 200,
+    "sha256": "5f8d69d8935e5f2d90bef6d6862318660e258fa2418cc049fd271d0925e45022"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1764547200.json",
+    "url": "https://coins.llama.fi/block/ethereum/1764547200",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:37.136475+00:00",
+    "http_status": 200,
+    "sha256": "882e9e531accc8741f869b9e8eeedef5fc4d83dcb779f586f0c15084befa54b5"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1767225600.json",
+    "url": "https://coins.llama.fi/block/ethereum/1767225600",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:38.463786+00:00",
+    "http_status": 200,
+    "sha256": "40e2bec65b8d7e0aaae8d03d1f3d3fe37752ea9291ebb97a20a3075960614aca"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1769904000.json",
+    "url": "https://coins.llama.fi/block/ethereum/1769904000",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:39.785688+00:00",
+    "http_status": 200,
+    "sha256": "de30b0c0d230704bb6e6fcc33990fcc4bbc4346a71e3e2ec551161b74adaefa9"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1772323200.json",
+    "url": "https://coins.llama.fi/block/ethereum/1772323200",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:41.195948+00:00",
+    "http_status": 200,
+    "sha256": "5eb50a5aa54d32f45d18eccb836a992e156cf21d2ccdb45a708392a1cfa7b895"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1775001600.json",
+    "url": "https://coins.llama.fi/block/ethereum/1775001600",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:43.132930+00:00",
+    "http_status": 200,
+    "sha256": "39fab97c65159119cab0268b0f56b769d80813cb291eab5f06a49960adf4fa7e"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1777593600.json",
+    "url": "https://coins.llama.fi/block/ethereum/1777593600",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:44.487681+00:00",
+    "http_status": 200,
+    "sha256": "56ff59420b3647cb85be16fd520cb53a285f16d55692cb420599307ca9b966e8"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1780272000.json",
+    "url": "https://coins.llama.fi/block/ethereum/1780272000",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:45.899244+00:00",
+    "http_status": 200,
+    "sha256": "3e4425ed0cf5a49f0f4caa2e3628e99ec5f36c66c264e51eb6cee3c3d6655721"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1782864000.json",
+    "url": "https://coins.llama.fi/block/ethereum/1782864000",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:47.334736+00:00",
+    "http_status": 200,
+    "sha256": "026830c5e82877f1419660dba2e373c7131ccc24a696192de1f21aab50c4d728"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1785542400.json",
+    "url": "https://coins.llama.fi/block/ethereum/1785542400",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:48.672737+00:00",
+    "http_status": 200,
+    "sha256": "d20c58183dbc69246baee6e68e6724d26fcb0a986098c7a9d2b964fdda7e6a89"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1788220800.json",
+    "url": "https://coins.llama.fi/block/ethereum/1788220800",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:50.107499+00:00",
+    "http_status": 200,
+    "sha256": "19a5d59dc5e53d0787f728f50577048094403d4f7057e45d3047043cc0a79aed"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1790812800.json",
+    "url": "https://coins.llama.fi/block/ethereum/1790812800",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:51.447854+00:00",
+    "http_status": 200,
+    "sha256": "a75d2342745c6a96516242a59ac31954a88cfe78bf8df0e9b4b0d09888d999a8"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1793491200.json",
+    "url": "https://coins.llama.fi/block/ethereum/1793491200",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:52.791701+00:00",
+    "http_status": 200,
+    "sha256": "473a71d7c2fec17b7a0e3ad14c2e34c7d0361a3af3cf0703c306ca4bcad31c86"
+  },
+  {
+    "file": "data\\raw\\ethereum_block_1795219200.json",
+    "url": "https://coins.llama.fi/block/ethereum/1795219200",
+    "params": {},
+    "query": null,
+    "retrieved_at_utc": "2026-11-22T11:18:54.114934+00:00",
+    "http_status": 200,
+    "sha256": "4917e3ecfa22a19507ab10bd84eff3a35e61c030bd32bc48925f6ec1a0a2a3b7"
+  },
+  {
+    "file": "data/raw/web3_snapshots.json",
+    "url": "https://eth-mainnet.public.blastapi.io",
+    "methods": [
+      "eth_chainId",
+      "eth_getBlockByNumber",
+      "eth_call"
+    ],
+    "retrieved_at_utc": "2026-11-22T11:18:55.308911+00:00",
+    "sha256": "71704412b66c7e521d2026d029f75f9068451879da43335ca302c878d5f65a73"
+  }
+]

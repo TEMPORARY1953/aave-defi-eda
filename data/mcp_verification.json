@@ -1,0 +1,61 @@
+{
+  "checked_at_utc": "2026-11-22T11:21:29.022799+00:00",
+  "initialize": {
+    "meta": null,
+    "protocolVersion": "2025-11-25",
+    "capabilities": {
+      "experimental": {},
+      "logging": null,
+      "prompts": {
+        "listChanged": false
+      },
+      "resources": {
+        "subscribe": false,
+        "listChanged": false
+      },
+      "tools": {
+        "listChanged": false
+      },
+      "completions": null,
+      "tasks": null
+    },
+    "serverInfo": {
+      "name": "Aave EDA",
+      "title": null,
+      "version": "1.30.0",
+      "websiteUrl": null,
+      "icons": null
+    },
+    "instructions": null
+  },
+  "tools": [
+    "get_analysis_summary",
+    "get_data_sources"
+  ],
+  "summary_result": {
+    "meta": null,
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"period_start\": \"2025-11-23\",\n  \"period_end\": \"2026-11-21\",\n  \"daily_observations\": 364,\n  \"aave_v3_defillama_rank\": 3,\n  \"aave_tvl_start_usd\": 28265039609.0,\n  \"aave_tvl_end_usd\": 15836912384.0,\n  \"aave_tvl_change_pct\": -43.969962175615365,\n  \"aave_price_start_usd\": 161.1195348430987,\n  \"aave_price_end_usd\": 97.85413706265287,\n  \"aave_price_change_pct\": -39.26612489420038,\n  \"chain_shares_pct\": {\n    \"Ethereum\": 84.64518232444873,\n    \"Base\": 2.7393571895889073,\n    \"Arbitrum\": 2.411405915119067,\n    \"Avalanche\": 2.2145642565676518,\n    \"Plasma\": 1.9538821299069709,\n    \"Monad\": 1.4235710063520421,\n    \"Arc\": 1.1084694651550584,\n    \"BSC\": 1.0004260878532623,\n    \"X Layer\": 0.9381079240553055,\n    \"Polygon\": 0.7501944957404141,\n    \"Mantle\": 0.2539252855918307,\n    \"Gnosis\": 0.23268337985647594,\n    \"OP Mainnet\": 0.2154818513391354,\n    \"Linea\": 0.03487416527971618,\n    \"MegaETH\": 0.029719997723515853,\n    \"Celo\": 0.01836911090661244,\n    \"Sonic\": 0.01693899628257235,\n    \"Scroll\": 0.007228574435737687,\n    \"ZKsync Era\": 0.0026818485175752805,\n    \"Metis\": 0.0014259471450265239,\n    \"Aptos\": 0.0011085431032463557,\n    \"Soneium\": 0.0003864389630760996,\n    \"Fantom\": 0.000014990295724553275\n  },\n  \"competitors\": {\n    \"Aave\": {\n      \"start_tvl_billion_usd\": 28.265039609,\n      \"end_tvl_billion_usd\": 15.836912384,\n      \"growth_pct\": -43.969962175615365,\n      \"share_of_three_pct\": 60.23228854999642\n    },\n    \"Compound\": {\n      \"start_tvl_billion_usd\": 1.901629654,\n      \"end_tvl_billion_usd\": 1.074203889,\n      \"growth_pct\": -43.51140419269041,\n      \"share_of_three_pct\": 4.085503350333894\n    },\n    \"Morpho\": {\n      \"start_tvl_billion_usd\": 5.551800131,\n      \"end_tvl_billion_usd\": 9.38194475,\n      \"growth_pct\": 68.9892382402842,\n      \"share_of_three_pct\": 35.682208099669694\n    }\n  },\n  \"graph_observations\": 49,\n  \"rpc_observations\": 14,\n  \"etherscan_sample_transactions\": 18,\n  \"etherscan_sample_start\": \"2026-11-22 11:01:23+00:00\",\n  \"etherscan_sample_end\": \"2026-11-22 11:11:11+00:00\",\n  \"metis_supply_apr_median_pct\": 0.4635904333350556,\n  \"web3_cash_first_aave\": 1123548.742610556,\n  \"web3_cash_last_aave\": 774556.3168480714,\n  \"sources_used\": [\n    \"DeFiLlama\",\n    \"CoinGecko\",\n    \"Etherscan (HTML)\",\n    \"web3.py\",\n    \"The Graph (Metis subgraph on 0xGraph)\"\n  ]\n}",
+        "annotations": null,
+        "meta": null
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  },
+  "sources_result": {
+    "meta": null,
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"sources\": [\n    \"DeFiLlama\",\n    \"CoinGecko\",\n    \"Etherscan HTML\",\n    \"web3.py Ethereum RPC\",\n    \"The Graph Aave V3 Metis on 0xGraph\"\n  ],\n  \"saved_responses\": 31\n}",
+        "annotations": null,
+        "meta": null
+      }
+    ],
+    "structuredContent": null,
+    "isError": false
+  }
+}

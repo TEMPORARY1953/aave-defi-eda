@@ -1,0 +1,51 @@
+rank,name,category,tvl
+1,LayerZero V2,Bridge,17683277326.810246
+2,Lido,Liquid Staking,16767153731.656723
+3,Aave V3,Lending,15089107791.213385
+4,Morpho Blue,Lending,9256371233.177532
+5,SSV Network,Staking Pool,8853265865.199316
+6,WBTC,Bridge,7075696509.449205
+7,Binance staked ETH,Liquid Staking,6669004264.862006
+8,Coinbase Bridge,Bridge,6286904784.062669
+9,Hyperliquid Bridge,Bridge,5651891856.0949545
+10,Ethena USDe,Basis Trading,4884318069.5693245
+11,EigenCloud,Restaking,4265617854.3518114
+12,Binance Bitcoin,Bridge,4146567193.8537354
+13,USDT0,Bridge,3740606852.872037
+14,ether.fi Stake,Liquid Staking,3291808974.1777883
+15,SparkLend,Lending,3172622538.2557793
+16,JustLend sTRX,Liquid Staking,3001875168.068905
+17,JustLend V1,Lending,2970515663.1083703
+18,Arbitrum Bridge,Canonical Bridge,2800944499.8159747
+19,Sky Lending,CDP,2719713379.4461927
+20,Base Bridge,Canonical Bridge,2680918450.665737
+21,Sentora Curator,Risk Curators,2614199046.2369604
+22,Steakhouse Financial,Risk Curators,2590829896.5878763
+23,Babylon Protocol,Restaking,2529825758.5490665
+24,Polygon Bridge,Canonical Bridge,2151553680.293386
+25,Maple,Lending,2009340888.3235664
+26,Spark Liquidity Layer,Onchain Capital Allocator,1931390324.2446456
+27,JustCryptos,Bridge,1878797730.16
+28,CCIP,Bridge,1710083166.878124
+29,Gauntlet,Risk Curators,1574893890.3989596
+30,Falcon Finance,Basis Trading,1547772870.7781985
+31,Hyperliquid Earn,Lending,1459294754.7393093
+32,Veda,Onchain Capital Allocator,1437452568.8550563
+33,Uniswap V4,Dexs,1314474930.070073
+34,Sanctum Validator LSTs,Liquid Staking,1297415754.096698
+35,Uniswap V3,Dexs,1238312816.4496236
+36,PancakeSwap AMM,Dexs,1214599789.6271884
+37,Portal,Bridge,1147917674.050776
+38,Kamino Lend,Lending,1137704277.240103
+39,Obol,Staking Pool,1054773681.694254
+40,Compound V3,Lending,1047666668.718641
+41,USDD,CDP,1007814699.0837517
+42,Concrete,Onchain Capital Allocator,996272196.0237986
+43,Curve DEX,Dexs,989658604.5010507
+44,Spark Savings,Yield,982179078.1298254
+45,Jupiter Lend,Lending,952992312.0788784
+46,Venus Core Pool,Lending,920877091.6997396
+47,Pendle V2,Yield,910326067.4729913
+48,Unit,Bridge,862578886.9885529
+49,Grove Finance,Onchain Capital Allocator,861246874.3367113
+50,Aave V4,Lending,834055271.1284328

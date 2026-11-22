@@ -1,0 +1,72 @@
+{
+  "period_start": "2025-11-23",
+  "period_end": "2026-11-21",
+  "daily_observations": 364,
+  "aave_v3_defillama_rank": 3,
+  "aave_tvl_start_usd": 28265039609.0,
+  "aave_tvl_end_usd": 15836912384.0,
+  "aave_tvl_change_pct": -43.969962175615365,
+  "aave_price_start_usd": 161.1195348430987,
+  "aave_price_end_usd": 97.85413706265287,
+  "aave_price_change_pct": -39.26612489420038,
+  "chain_shares_pct": {
+    "Ethereum": 84.64518232444873,
+    "Base": 2.7393571895889073,
+    "Arbitrum": 2.411405915119067,
+    "Avalanche": 2.2145642565676518,
+    "Plasma": 1.9538821299069709,
+    "Monad": 1.4235710063520421,
+    "Arc": 1.1084694651550584,
+    "BSC": 1.0004260878532623,
+    "X Layer": 0.9381079240553055,
+    "Polygon": 0.7501944957404141,
+    "Mantle": 0.2539252855918307,
+    "Gnosis": 0.23268337985647594,
+    "OP Mainnet": 0.2154818513391354,
+    "Linea": 0.03487416527971618,
+    "MegaETH": 0.029719997723515853,
+    "Celo": 0.01836911090661244,
+    "Sonic": 0.01693899628257235,
+    "Scroll": 0.007228574435737687,
+    "ZKsync Era": 0.0026818485175752805,
+    "Metis": 0.0014259471450265239,
+    "Aptos": 0.0011085431032463557,
+    "Soneium": 0.0003864389630760996,
+    "Fantom": 1.4990295724553275e-05
+  },
+  "competitors": {
+    "Aave": {
+      "start_tvl_billion_usd": 28.265039609,
+      "end_tvl_billion_usd": 15.836912384,
+      "growth_pct": -43.969962175615365,
+      "share_of_three_pct": 60.23228854999642
+    },
+    "Compound": {
+      "start_tvl_billion_usd": 1.901629654,
+      "end_tvl_billion_usd": 1.074203889,
+      "growth_pct": -43.51140419269041,
+      "share_of_three_pct": 4.085503350333894
+    },
+    "Morpho": {
+      "start_tvl_billion_usd": 5.551800131,
+      "end_tvl_billion_usd": 9.38194475,
+      "growth_pct": 68.9892382402842,
+      "share_of_three_pct": 35.682208099669694
+    }
+  },
+  "graph_observations": 49,
+  "rpc_observations": 14,
+  "etherscan_sample_transactions": 18,
+  "etherscan_sample_start": "2026-11-22 11:01:23+00:00",
+  "etherscan_sample_end": "2026-11-22 11:11:11+00:00",
+  "metis_supply_apr_median_pct": 0.4635904333350556,
+  "web3_cash_first_aave": 1123548.742610556,
+  "web3_cash_last_aave": 774556.3168480714,
+  "sources_used": [
+    "DeFiLlama",
+    "CoinGecko",
+    "Etherscan (HTML)",
+    "web3.py",
+    "The Graph (Metis subgraph on 0xGraph)"
+  ]
+}
